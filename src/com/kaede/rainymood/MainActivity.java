@@ -1,11 +1,13 @@
 package com.kaede.rainymood;
 
+import de.greenrobot.event.EventBus;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,10 +21,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //EventBus.getDefault().register(this);
 
         ViewPager viewPager = (ViewPager) this.findViewById(R.id.main_viewPager);
         MainFragmentStateAdapter mainFragmentStateAdapter = new MainFragmentStateAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mainFragmentStateAdapter);
+		
+		startService(new Intent(MainActivity.this,MainService.class));
+		EventBus.getDefault().post(new Event());
     }
 
 
@@ -62,5 +69,12 @@ public class MainActivity extends ActionBarActivity {
     		// TODO Auto-generated method stub
     		return new MainFragment(arg0);
     	}
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	// TODO Auto-generated method stub
+    	super.onDestroy();
+    	//EventBus.getDefault().unregister(this);
     }
 }
