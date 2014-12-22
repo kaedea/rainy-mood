@@ -9,7 +9,7 @@
     android:background="#ddd" >
 
     <LinearLayout 
-        android:background="#fff"
+        android:background="@drawable/yuanjiaokapian_bg"
        android:layout_width="match_parent"
        android:layout_height="match_parent"></LinearLayout>
 
