@@ -48,6 +48,9 @@ public class MainService extends Service {
 		case EventPlayer.PLAY:		
 			mp.start();
 			break;
+		case EventPlayer.PAUSE:		
+			mp.pause();
+			break;
 		default:
 			break;
 		}

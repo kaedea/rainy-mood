@@ -3,10 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.kaede.rainymood.MainActivity" >
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+   <item android:id="@+id/give_me_5" android:title="give me five"/>
+            <item android:id="@+id/more_app" android:title="More Apps"/>
+
 
 </menu>

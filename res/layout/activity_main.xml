@@ -26,9 +26,51 @@
             android:layout_alignParentBottom="true"
             android:background="#33000000"
             android:orientation="horizontal" >
-            
-            
-            
+
+            <LinearLayout
+                android:id="@+id/main_btn_timer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/main_btn_selector"
+                android:gravity="center"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_timer" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_btn_play"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/main_btn_selector"
+                android:gravity="center" >
+
+                <ImageView
+                    android:id="@+id/main_iv_play"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_play" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/main_btn_download"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/main_btn_selector"
+                android:gravity="center" >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/main_download" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 

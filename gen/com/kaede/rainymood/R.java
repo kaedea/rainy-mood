@@ -955,11 +955,12 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070004;
+        public static final int abc_search_url_text_holo=0x7f070005;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
         public static final int background_tab_pressed=0x7f070003;
+        public static final int common_transparent=0x7f070004;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1177,14 +1178,19 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int background_tab=0x7f020057;
         public static final int ic_launcher=0x7f020058;
-        public static final int vpi__tab_indicator=0x7f020059;
-        public static final int vpi__tab_selected_focused_holo=0x7f02005a;
-        public static final int vpi__tab_selected_holo=0x7f02005b;
-        public static final int vpi__tab_selected_pressed_holo=0x7f02005c;
-        public static final int vpi__tab_unselected_focused_holo=0x7f02005d;
-        public static final int vpi__tab_unselected_holo=0x7f02005e;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02005f;
-        public static final int yuanjiaokapian_bg=0x7f020060;
+        public static final int main_btn_selector=0x7f020059;
+        public static final int main_download=0x7f02005a;
+        public static final int main_more=0x7f02005b;
+        public static final int main_play=0x7f02005c;
+        public static final int main_stop=0x7f02005d;
+        public static final int main_timer=0x7f02005e;
+        public static final int vpi__tab_selected_focused_holo=0x7f02005f;
+        public static final int vpi__tab_selected_holo=0x7f020060;
+        public static final int vpi__tab_selected_pressed_holo=0x7f020061;
+        public static final int vpi__tab_unselected_focused_holo=0x7f020062;
+        public static final int vpi__tab_unselected_holo=0x7f020063;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f020064;
+        public static final int yuanjiaokapian_bg=0x7f020065;
     }
     public static final class id {
         public static final int action_bar=0x7f0a001c;
@@ -1198,7 +1204,6 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f0a0002;
         public static final int action_menu_presenter=0x7f0a0003;
         public static final int action_mode_close_button=0x7f0a0024;
-        public static final int action_settings=0x7f0a003f;
         public static final int activity_chooser_view_content=0x7f0a0025;
         public static final int always=0x7f0a000f;
         public static final int beginning=0x7f0a0016;
@@ -1213,6 +1218,7 @@ containing a value of this type.
         public static final int end=0x7f0a0017;
         public static final int expand_activities_button=0x7f0a0026;
         public static final int expanded_menu=0x7f0a002c;
+        public static final int give_me_5=0x7f0a0043;
         public static final int home=0x7f0a0000;
         public static final int homeAsUp=0x7f0a000a;
         public static final int icon=0x7f0a002a;
@@ -1220,8 +1226,13 @@ containing a value of this type.
         public static final int image=0x7f0a0027;
         public static final int listMode=0x7f0a0006;
         public static final int list_item=0x7f0a0029;
+        public static final int main_btn_download=0x7f0a0042;
+        public static final int main_btn_play=0x7f0a0040;
+        public static final int main_btn_timer=0x7f0a003f;
+        public static final int main_iv_play=0x7f0a0041;
         public static final int main_viewPager=0x7f0a003e;
         public static final int middle=0x7f0a0018;
+        public static final int more_app=0x7f0a0044;
         public static final int never=0x7f0a0012;
         public static final int none=0x7f0a0019;
         public static final int normal=0x7f0a0007;
