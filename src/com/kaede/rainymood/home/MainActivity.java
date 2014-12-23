@@ -18,10 +18,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Chronometer;
+import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.os.Build;
@@ -40,6 +43,7 @@ public class MainActivity extends ActionBarActivity {
 		setListener();
 		// Æô¶¯·þÎñ
 		startService(new Intent(MainActivity.this, MainService.class));
+		startTimer();
 	}
 
 	public void intitView() {
@@ -97,6 +101,21 @@ public class MainActivity extends ActionBarActivity {
 			isPlaying = true;
 		}
 	}
+	
+	public void startTimer()
+	{
+		Chronometer timer = (Chronometer) this.findViewById(R.id.main_chronometer);
+		timer.setBase(SystemClock.elapsedRealtime());  
+		timer.start();
+		timer.setOnChronometerTickListener(new OnChronometerTickListener() {
+			
+			@Override
+			public void onChronometerTick(Chronometer chronometer) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,6 +137,12 @@ public class MainActivity extends ActionBarActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		Crouton.cancelAllCroutons();
+		super.onDestroy();
+	}
 	public static final class MainFragmentStateAdapter extends
 			FragmentStatePagerAdapter {
 
@@ -149,10 +174,5 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
 
 }
