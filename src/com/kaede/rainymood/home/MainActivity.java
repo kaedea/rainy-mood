@@ -1,5 +1,9 @@
 package com.kaede.rainymood.home;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import com.astuetz.PagerSlidingTabStrip;
 import com.kaede.rainymood.EventPlayer;
 import com.kaede.rainymood.R;
@@ -16,8 +20,11 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
+import android.text.format.Time;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +33,7 @@ import android.view.View.OnClickListener;
 import android.widget.Chronometer;
 import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Build;
 
@@ -33,6 +41,7 @@ public class MainActivity extends ActionBarActivity {
 	
 	private Boolean isPlaying =false;
 	private ImageView main_iv_play;
+	private TextView tv_timer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +66,23 @@ public class MainActivity extends ActionBarActivity {
 		tabs.setViewPager(viewPager);
 		
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
+		
+		tv_timer = (TextView) MainActivity.this.findViewById(R.id.main_tv_timer);
 	}
 
 	public void setListener() {
 		findViewById(R.id.main_btn_timer).setOnClickListener(
 				new OnClickListener() {
 
+					
+
+					@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
-
+						CountDown countDown = new CountDown(6000000, 1000);
+						countDown.start();
+						
+						
 					}
 				});
 		findViewById(R.id.main_btn_play).setOnClickListener(new OnClickListener() {
@@ -101,6 +117,43 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 	
+	public class CountDown extends CountDownTimer
+	{
+		long time;
+		long interval;
+		public CountDown(long millisInFuture, long countDownInterval) {
+			super(millisInFuture, countDownInterval);
+			this.time=millisInFuture;
+			this.interval =countDownInterval;
+		}
+
+		@Override
+		public void onFinish() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void onTick(long millisUntilFinished) {
+			// TODO Auto-generated method stub
+			String str_time = millsToMS(millisUntilFinished);
+			tv_timer.setText(str_time);
+		}
+		
+		@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+		public String millsToMS(long millis)
+		{
+			return String.format("%d min, %d sec", 
+				    TimeUnit.MILLISECONDS.toMinutes(millis),
+				    TimeUnit.MILLISECONDS.toSeconds(millis) - 
+				    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+				);
+		}
+		
+	}
+	
+	
+	
 	
 
 	@Override
@@ -132,9 +185,7 @@ public class MainActivity extends ActionBarActivity {
 	public static final class MainFragmentStateAdapter extends
 			FragmentStatePagerAdapter {
 
-		private final String[] TITLES = { "Categories", "Home", "Top Paid",
-				"Top Free", "Top Grossing", "Top New Paid", "Top New Free",
-				"Trending" };
+		private final String[] TITLES = { "Rainy","Mood","Always","Calm","Everything" };
 
 		public MainFragmentStateAdapter(FragmentManager fm) {
 			super(fm);
