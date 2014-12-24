@@ -43,7 +43,6 @@ public class MainActivity extends ActionBarActivity {
 		setListener();
 		// Æô¶¯·þÎñ
 		startService(new Intent(MainActivity.this, MainService.class));
-		startTimer();
 	}
 
 	public void intitView() {
@@ -83,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Crouton.showText(MainActivity.this, "Coming Soon", Style.INFO);
+				Crouton.makeText(MainActivity.this, "Coming Soon", Style.INFO).show(true);
 			}
 		});
 	}
@@ -102,20 +101,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 	}
 	
-	public void startTimer()
-	{
-		Chronometer timer = (Chronometer) this.findViewById(R.id.main_chronometer);
-		timer.setBase(SystemClock.elapsedRealtime());  
-		timer.start();
-		timer.setOnChronometerTickListener(new OnChronometerTickListener() {
-			
-			@Override
-			public void onChronometerTick(Chronometer chronometer) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	}
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

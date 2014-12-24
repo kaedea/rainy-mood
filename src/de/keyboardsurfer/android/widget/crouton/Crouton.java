@@ -572,6 +572,17 @@ public final class Crouton {
   public void show() {
     Manager.getInstance().add(this);
   }
+  
+  public void show(Boolean onlyNoOtherToastsNow)
+  {
+	  if (onlyNoOtherToastsNow) {
+		  if(!Manager.getInstance().isEmpty())
+			{
+			 return;
+			}
+	}
+	  show();
+  }
 
   public Animation getInAnimation() {
     if ((null == this.inAnimation) && (null != this.activity)) {

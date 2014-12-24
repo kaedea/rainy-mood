@@ -16,6 +16,7 @@
 
         <android.support.v4.view.ViewPager
             android:id="@+id/main_viewPager"
+            android:layout_above="@+id/layout_bottom"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
         </android.support.v4.view.ViewPager>
@@ -72,16 +73,6 @@
                     android:src="@drawable/main_download" />
             </LinearLayout>
         </LinearLayout>
-
-        <Chronometer
-            android:id="@+id/main_chronometer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/layout_bottom"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="25dp"
-            android:layout_marginLeft="41dp"
-            android:text="Chronometer" />
     </RelativeLayout>
 
 </LinearLayout>

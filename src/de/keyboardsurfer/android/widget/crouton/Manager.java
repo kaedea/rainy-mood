@@ -80,6 +80,11 @@ final class Manager extends Handler {
     croutonQueue.add(crouton);
     displayCrouton();
   }
+  
+  Boolean isEmpty()
+  {
+	  return croutonQueue.isEmpty();
+  }
 
   /**
    * Displays the next {@link Crouton} within the queue.
