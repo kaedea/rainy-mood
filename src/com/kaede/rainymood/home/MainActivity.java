@@ -1,56 +1,53 @@
 package com.kaede.rainymood.home;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import com.astuetz.PagerSlidingTabStrip;
-import com.kaede.rainymood.EventPlayer;
-import com.kaede.rainymood.R;
-import com.kaede.rainymood.R.id;
-import com.kaede.rainymood.R.layout;
-import com.kaede.rainymood.R.menu;
-
-import de.greenrobot.event.EventBus;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.text.format.Time;
-import android.annotation.TargetApi;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.SystemClock;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Chronometer;
-import android.widget.Chronometer.OnChronometerTickListener;
 import android.widget.ImageView;
+import android.widget.SeekBar;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.os.Build;
+
+import com.astuetz.PagerSlidingTabStrip;
+import com.kaede.rainymood.EventPlayer;
+import com.kaede.rainymood.R;
+
+import de.greenrobot.event.EventBus;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends ActionBarActivity {
-	
-	private Boolean isPlaying =false;
+
+	private Boolean isPlaying = false;
 	private ImageView main_iv_play;
 	private TextView tv_timer;
+	private SeekBar seekBar;
+	private CountDownTimer countDownTimer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+
 		intitView();
 		setListener();
-		// Æô¶¯·þÎñ
 		startService(new Intent(MainActivity.this, MainService.class));
 	}
 
@@ -64,73 +61,159 @@ public class MainActivity extends ActionBarActivity {
 		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this
 				.findViewById(R.id.tabs);
 		tabs.setViewPager(viewPager);
-		
+
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
+
+		tv_timer = (TextView) MainActivity.this
+				.findViewById(R.id.main_tv_timer);
 		
-		tv_timer = (TextView) MainActivity.this.findViewById(R.id.main_tv_timer);
 	}
 
 	public void setListener() {
 		findViewById(R.id.main_btn_timer).setOnClickListener(
 				new OnClickListener() {
 
-					
-
-					@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-					@Override
 					public void onClick(View v) {
-						CountDown countDown = new CountDown(6000000, 1000);
-						countDown.start();
-						
-						
+						setTimer();
 					}
 				});
-		findViewById(R.id.main_btn_play).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				play();
-			}
-		});
-		findViewById(R.id.main_btn_download).setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				Crouton.makeText(MainActivity.this, "Coming Soon", Style.INFO).show(true);
-			}
-		});
+		findViewById(R.id.main_btn_play).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						play();
+					}
+				});
+		findViewById(R.id.main_btn_download).setOnClickListener(
+				new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						Crouton.makeText(MainActivity.this, "Coming Soon",
+								Style.INFO).show(true);
+					}
+				});
 	}
-	
-	public void play()
-	{
+
+	public void play() {
 		if (isPlaying) {
 			EventBus.getDefault().post(new EventPlayer(1));
 			main_iv_play.setImageResource(R.drawable.main_play);
-			isPlaying=false;
-		}
-		else{
+			isPlaying = false;
+		} else {
 			EventBus.getDefault().post(new EventPlayer(0));
 			main_iv_play.setImageResource(R.drawable.main_stop);
 			isPlaying = true;
 		}
 	}
+
+	private void setTimer() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+		View view_dialog = factory.inflate(R.layout.layout_pick_timer, null);
+		seekBar = (SeekBar) view_dialog.findViewById(R.id.main_seekbar);
+		final TextView tv_progress =(TextView) view_dialog.findViewById(R.id.timerdialog_tv_progress);
+		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+			
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				tv_progress.setText(String.valueOf(progress+1));
+				
+				
+			}
+		});
+		builder.setView(view_dialog);
+		final Dialog dialog = builder.create();
+		view_dialog.findViewById(R.id.main_dialog_cancel).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+			}
+		});
+		view_dialog.findViewById(R.id.main_dialog_confirm).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				startTimer(((seekBar.getProgress()+1)*60+1)*1000);
+				dialog.dismiss();
+			}
+		});
+		dialog.show();
+	}
 	
-	public class CountDown extends CountDownTimer
+	private void startTimer(long millis)
 	{
+		cancelTimer();
+		findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
+		countDownTimer = new CountDownTimer(millis,1000) {
+			
+			@Override
+			public void onTick(long millisUntilFinished) {
+				// TODO Auto-generated method stub
+				tv_timer.setText(millsToMS(millisUntilFinished));
+			}
+			
+			@Override
+			public void onFinish() {
+				findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
+				
+			}
+		};
+		countDownTimer.start();
+	}
+	
+	private void cancelTimer()
+	{
+		if (countDownTimer!=null) {
+			countDownTimer.cancel();
+		}
+		if(findViewById(R.id.main_layout_timer).getVisibility()==View.VISIBLE)
+		{
+			findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
+		}
+	}
+	
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+	public String millsToMS(long millis) {
+		return String.format(
+				"%d:%d",
+				TimeUnit.MILLISECONDS.toMinutes(millis),
+				TimeUnit.MILLISECONDS.toSeconds(millis)
+						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+								.toMinutes(millis)));
+	}
+
+	public class CountDown extends CountDownTimer {
 		long time;
 		long interval;
+
 		public CountDown(long millisInFuture, long countDownInterval) {
 			super(millisInFuture, countDownInterval);
-			this.time=millisInFuture;
-			this.interval =countDownInterval;
+			this.time = millisInFuture;
+			this.interval = countDownInterval;
 		}
 
 		@Override
 		public void onFinish() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
@@ -139,22 +222,9 @@ public class MainActivity extends ActionBarActivity {
 			String str_time = millsToMS(millisUntilFinished);
 			tv_timer.setText(str_time);
 		}
-		
-		@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-		public String millsToMS(long millis)
-		{
-			return String.format("%d min, %d sec", 
-				    TimeUnit.MILLISECONDS.toMinutes(millis),
-				    TimeUnit.MILLISECONDS.toSeconds(millis) - 
-				    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-				);
-		}
-		
+
+
 	}
-	
-	
-	
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -182,10 +252,12 @@ public class MainActivity extends ActionBarActivity {
 		Crouton.cancelAllCroutons();
 		super.onDestroy();
 	}
+
 	public static final class MainFragmentStateAdapter extends
 			FragmentStatePagerAdapter {
 
-		private final String[] TITLES = { "Rainy","Mood","Always","Calm","Everything" };
+		private final String[] TITLES = { "Rainy", "Mood", "Always", "Calm",
+				"Everything" };
 
 		public MainFragmentStateAdapter(FragmentManager fm) {
 			super(fm);
@@ -210,6 +282,5 @@ public class MainActivity extends ActionBarActivity {
 			return new MainFragment(arg0);
 		}
 	}
-
 
 }
