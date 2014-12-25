@@ -45,7 +45,8 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		
+		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		intitView();
 		setListener();
 		startService(new Intent(MainActivity.this, MainService.class));
@@ -74,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
 				new OnClickListener() {
 
 					public void onClick(View v) {
-						setTimer();
+						showSetTimerDialog();
 					}
 				});
 		findViewById(R.id.main_btn_play).setOnClickListener(
@@ -82,7 +83,6 @@ public class MainActivity extends ActionBarActivity {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						play();
 					}
 				});
@@ -91,29 +91,45 @@ public class MainActivity extends ActionBarActivity {
 
 					@Override
 					public void onClick(View v) {
-						// TODO Auto-generated method stub
 						Crouton.makeText(MainActivity.this, "Coming Soon",
 								Style.INFO).show(true);
 					}
 				});
+		findViewById(R.id.main_layout_timer).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showCancelTimerDialog();
+			}
+		});
 	}
 
-	public void play() {
+	private void play() {
 		if (isPlaying) {
-			EventBus.getDefault().post(new EventPlayer(1));
-			main_iv_play.setImageResource(R.drawable.main_play);
-			isPlaying = false;
+			stopPlay();
 		} else {
-			EventBus.getDefault().post(new EventPlayer(0));
-			main_iv_play.setImageResource(R.drawable.main_stop);
-			isPlaying = true;
+			startPlay();
 		}
 	}
+	
+	private void startPlay()
+	{
+		EventBus.getDefault().post(new EventPlayer(0));
+		main_iv_play.setImageResource(R.drawable.main_stop);
+		isPlaying = true;
+	}
+	
+	private void stopPlay()
+	{
+		EventBus.getDefault().post(new EventPlayer(1));
+		main_iv_play.setImageResource(R.drawable.main_play);
+		isPlaying = false;
+	}
 
-	private void setTimer() {
+	private void showSetTimerDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
-		View view_dialog = factory.inflate(R.layout.layout_pick_timer, null);
+		View view_dialog = factory.inflate(R.layout.dialog_pick_timer, null);
 		seekBar = (SeekBar) view_dialog.findViewById(R.id.main_seekbar);
 		final TextView tv_progress =(TextView) view_dialog.findViewById(R.id.timerdialog_tv_progress);
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
@@ -161,6 +177,7 @@ public class MainActivity extends ActionBarActivity {
 	private void startTimer(long millis)
 	{
 		cancelTimer();
+		startPlay();
 		findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
 		countDownTimer = new CountDownTimer(millis,1000) {
 			
@@ -173,7 +190,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onFinish() {
 				findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
-				
+				stopPlay();
 			}
 		};
 		countDownTimer.start();
@@ -188,6 +205,32 @@ public class MainActivity extends ActionBarActivity {
 		{
 			findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
 		}
+	}
+	
+	private void showCancelTimerDialog()
+	{
+		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+		View view_dialog = factory.inflate(R.layout.dialog_cancel_timer, null);
+		builder.setView(view_dialog);
+		final Dialog dialog = builder.create();
+        view_dialog.findViewById(R.id.dialogCancelTimer_cancel).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+			}
+		});
+		view_dialog.findViewById(R.id.dialogCancelTimer_confirm).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				cancelTimer();
+				dialog.dismiss();
+			}
+		});
+		
+		dialog.show();
 	}
 	
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)

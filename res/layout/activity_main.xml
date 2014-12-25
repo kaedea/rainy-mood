@@ -43,6 +43,9 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/main_timer" />
             </LinearLayout>
+            <View android:layout_width="1dp" android:layout_height="56dp"
+              android:background="@drawable/main_divider_vertical" android:layout_gravity="center"
+                />
 
             <LinearLayout
                 android:id="@+id/main_btn_play"
@@ -58,6 +61,11 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/main_play" />
             </LinearLayout>
+            
+            <View android:layout_width="1dp" android:layout_height="56dp"
+              android:background="@drawable/main_divider_vertical" android:layout_gravity="center"
+                />
+            
 
             <LinearLayout
                 android:id="@+id/main_btn_download"
