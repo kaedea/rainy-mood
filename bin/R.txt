@@ -293,12 +293,14 @@ int id edit_query 0x7f060030
 int id end 0x7f060013
 int id expand_activities_button 0x7f060026
 int id expanded_menu 0x7f06002c
-int id give_me_5 0x7f06004d
+int id give_me_5 0x7f060051
 int id home 0x7f060014
 int id homeAsUp 0x7f060005
 int id icon 0x7f06002a
 int id ifRoom 0x7f06000a
 int id image 0x7f060027
+int id imageView1 0x7f06004d
+int id imageView2 0x7f06004e
 int id layout_bottom 0x7f06003f
 int id listMode 0x7f060001
 int id list_item 0x7f060029
@@ -313,7 +315,7 @@ int id main_seekbar 0x7f06004a
 int id main_tv_timer 0x7f060045
 int id main_viewPager 0x7f06003e
 int id middle 0x7f060012
-int id more_app 0x7f06004e
+int id more_app 0x7f060052
 int id never 0x7f060009
 int id none 0x7f060010
 int id normal 0x7f060000
@@ -338,6 +340,8 @@ int id split_action_bar 0x7f06001e
 int id submit_area 0x7f060039
 int id tabMode 0x7f060002
 int id tabs 0x7f06003d
+int id textView1 0x7f06004f
+int id textView2 0x7f060050
 int id timerdialog_tv_progress 0x7f060048
 int id title 0x7f06002b
 int id top_action_bar 0x7f060020
@@ -373,7 +377,8 @@ int layout activity_main 0x7f030018
 int layout dialog_cancel_timer 0x7f030019
 int layout dialog_pick_timer 0x7f03001a
 int layout fragment_main 0x7f03001b
-int layout support_simple_spinner_dropdown_item 0x7f03001c
+int layout notification_main 0x7f03001c
+int layout support_simple_spinner_dropdown_item 0x7f03001d
 int menu main 0x7f0d0000
 int raw rainy 0x7f050000
 int string _90 0x7f0b0010
