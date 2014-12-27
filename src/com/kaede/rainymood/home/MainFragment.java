@@ -1,5 +1,6 @@
 package com.kaede.rainymood.home;
 
+import com.kaede.advertise.AdManagerQQ;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.R.layout;
 
@@ -11,6 +12,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
@@ -38,6 +40,19 @@ public class MainFragment extends Fragment {
 				.findViewById(R.id.fragmentMain_iv_bg);
 		iv_bg.setImageResource(getBgResource(pos));
 		return rootView;
+	}
+	
+	@Override
+	public void onResume() {
+		ad_addbanner();
+		super.onResume();
+	}
+
+	private void ad_addbanner() {
+		if (pos==0) {
+			RelativeLayout container = (RelativeLayout) getView().findViewById(R.id.fragmentMain_bannercontainer);
+			AdManagerQQ.addBanner(getActivity(), container);
+		}
 	}
 
 	private int getBgResource(int position) {

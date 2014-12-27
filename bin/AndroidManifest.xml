@@ -39,12 +39,13 @@
         <!-- QQ AD -->
         <service
             android:name="com.qq.e.comm.DownloadService"
-            android:exported="false" />
+            android:exported="false" >
+        </service>
 
         <activity
             android:name="com.qq.e.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
     </application>
 
 </manifest>

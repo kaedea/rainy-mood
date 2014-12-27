@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.kaede.rainymood.MainActivity" >
 
-   <item android:id="@+id/give_me_5" android:title="give me five"/>
-            <item android:id="@+id/more_app" android:title="More Apps"/>
+   <item android:id="@+id/menu_main_give_me_5" android:title="Give me five"/>
+            <item android:id="@+id/menu_main_more_apps" android:title="More Apps"/>
 
 
 </menu>
