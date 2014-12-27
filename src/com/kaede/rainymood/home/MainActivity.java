@@ -10,6 +10,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -31,6 +33,7 @@ import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.kaede.rainymood.EventPlayer;
+import com.kaede.rainymood.EventTimer;
 import com.kaede.rainymood.R;
 
 import de.greenrobot.event.EventBus;
@@ -39,32 +42,34 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class MainActivity extends ActionBarActivity {
 
+	private static final String TAG = "MainActivity";
 	private ImageView main_iv_play;
 	private TextView tv_timer;
 	private SeekBar seekBar;
 	private CountDownTimer countDownTimer;
+	private ViewPager viewPager;
 
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		// TODO Auto-generated method stub
+		super.onConfigurationChanged(newConfig);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		EventBus.getDefault().register(this);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		intitView();
 		setListener();
 		startService(new Intent(MainActivity.this, MainService.class));
-
-	
-			if (MainService.isPlaying) {
-				main_iv_play.setImageResource(R.drawable.main_stop);
-			} else {
-				main_iv_play.setImageResource(R.drawable.main_play);
-			}
 	}
 
 	public void intitView() {
-		ViewPager viewPager = (ViewPager) this
+		viewPager = (ViewPager) this
 				.findViewById(R.id.main_viewPager);
+		
 		MainFragmentStateAdapter mainFragmentStateAdapter = new MainFragmentStateAdapter(
 				getSupportFragmentManager());
 		viewPager.setAdapter(mainFragmentStateAdapter);
@@ -72,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
 		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this
 				.findViewById(R.id.tabs);
 		tabs.setViewPager(viewPager);
+		tabs.setIndicatorColorResource(R.color.common_blue);
 
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
 
@@ -124,13 +130,13 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void startPlay() {
-		EventBus.getDefault().post(new EventPlayer(0));
-		main_iv_play.setImageResource(R.drawable.main_stop);
+		EventBus.getDefault().post(new EventPlayer(EventPlayer.PLAY));
+		main_iv_play.setImageResource(R.drawable.main_pause);
 		MainService.isPlaying = true;
 	}
 
 	private void stopPlay() {
-		EventBus.getDefault().post(new EventPlayer(1));
+		EventBus.getDefault().post(new EventPlayer(EventPlayer.PAUSE));
 		main_iv_play.setImageResource(R.drawable.main_play);
 		cancelTimer();
 		MainService.isPlaying = false;
@@ -179,6 +185,7 @@ public class MainActivity extends ActionBarActivity {
 
 					@Override
 					public void onClick(View arg0) {
+						
 						startTimer(((seekBar.getProgress() + 1) * 60 + 1) * 1000);
 						dialog.dismiss();
 					}
@@ -190,31 +197,16 @@ public class MainActivity extends ActionBarActivity {
 		cancelTimer();
 		startPlay();
 		findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
-		countDownTimer = new CountDownTimer(millis, 1000) {
-
-			@Override
-			public void onTick(long millisUntilFinished) {
-				// TODO Auto-generated method stub
-				tv_timer.setText(millsToMS(millisUntilFinished));
-			}
-
-			@Override
-			public void onFinish() {
-				findViewById(R.id.main_layout_timer).setVisibility(
-						View.INVISIBLE);
-				stopPlay();
-			}
-		};
-		countDownTimer.start();
+		EventBus.getDefault().post(new EventTimer(EventTimer.START_TIMER,millis));
+		MainService.startTimer=false;
 	}
 
 	private void cancelTimer() {
-		if (countDownTimer != null) {
-			countDownTimer.cancel();
-		}
+		EventBus.getDefault().post(new EventTimer(EventTimer.CANCEL_TIMER));
 		if (findViewById(R.id.main_layout_timer).getVisibility() == View.VISIBLE) {
 			findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
 		}
+		MainService.startTimer=false;
 	}
 
 	private void showCancelTimerDialog() {
@@ -245,13 +237,37 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
-	public String millsToMS(long millis) {
-		return String.format(
-				"%d:%d",
-				TimeUnit.MILLISECONDS.toMinutes(millis),
-				TimeUnit.MILLISECONDS.toSeconds(millis)
-						- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
-								.toMinutes(millis)));
+	public String millsToMS(long millis) {		
+		long m = TimeUnit.MILLISECONDS.toMinutes(millis);
+		String minute =  String.valueOf(m);
+		if(m<10)minute = "0"+minute;
+		
+		long s = TimeUnit.MILLISECONDS.toSeconds(millis)
+				- TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS
+						.toMinutes(millis));
+		String second =  String.valueOf(s);
+		if(s<10)second = "0"+second;
+		
+		return minute+":"+second;
+	}
+	
+	@Override
+	protected void onResume() {
+		
+		if (MainService.isPlaying) {
+			main_iv_play.setImageResource(R.drawable.main_pause);
+		} else {
+			main_iv_play.setImageResource(R.drawable.main_play);
+		}
+		
+		if (MainService.startTimer) {
+			findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
+		}
+		
+		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE",MODE_PRIVATE);
+		int current =sp.getInt("CURRENT_TAB", 0);
+		viewPager.setCurrentItem(current);
+		super.onResume();
 	}
 
 	@Override
@@ -281,6 +297,11 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onDestroy() {
 		Crouton.cancelAllCroutons();
+		EventBus.getDefault().unregister(this);
+		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE",MODE_PRIVATE);
+		SharedPreferences.Editor editor = sp.edit();
+		editor.putInt("CURRENT_TAB",viewPager.getCurrentItem() ); // value to store
+		editor.commit();
 		super.onDestroy();
 	}
 
@@ -319,6 +340,21 @@ public class MainActivity extends ActionBarActivity {
 		nm.notify(R.string.app_name, n);
 		
 	}
+	
+	
+	public void onEventMainThread(EventTimer e)
+    {
+		Log.d(TAG,"EventTimer:"+e.type );
+    	switch (e.type) {
+		case EventTimer.ON_TICK:
+			tv_timer.setText(millsToMS(e.millis));
+			break;
+		case EventTimer.ON_FINISH:
+			MainService.startTimer=false;
+			stopPlay();
+			break;
+		}
+    }
 
 	public static final class MainFragmentStateAdapter extends
 			FragmentStatePagerAdapter {

@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_alignParentBottom="true"
-            android:background="#33000000"
+            android:background="#99000000"
             android:orientation="horizontal" >
 
             <LinearLayout
@@ -86,9 +86,9 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/main_viewPager"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="28dp"
             android:layout_marginLeft="32dp"
-            android:background="#33000000"
+            android:background="@drawable/main_timer_bg"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             android:paddingLeft="6dp"
@@ -102,6 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="00:00"
+            android:textColor="@android:color/white"
             android:textAppearance="?android:attr/textAppearanceLarge" />
         </LinearLayout>
 

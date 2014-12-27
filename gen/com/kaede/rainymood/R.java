@@ -955,11 +955,12 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f070002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f080006;
+        public static final int abc_search_url_text_holo=0x7f080007;
         public static final int abc_search_url_text_normal=0x7f080000;
         public static final int abc_search_url_text_pressed=0x7f080002;
         public static final int abc_search_url_text_selected=0x7f080001;
         public static final int background_tab_pressed=0x7f080003;
+        public static final int common_blue=0x7f080006;
         public static final int common_transparent=0x7f080004;
         public static final int grey=0x7f080005;
     }
@@ -1179,21 +1180,28 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int background_tab=0x7f020057;
         public static final int ic_launcher=0x7f020058;
-        public static final int main_btn_selector=0x7f020059;
-        public static final int main_dialog_btn_selector=0x7f02005a;
-        public static final int main_divider_vertical=0x7f02005b;
-        public static final int main_download=0x7f02005c;
-        public static final int main_more=0x7f02005d;
-        public static final int main_play=0x7f02005e;
-        public static final int main_stop=0x7f02005f;
-        public static final int main_timer=0x7f020060;
-        public static final int vpi__tab_selected_focused_holo=0x7f020061;
-        public static final int vpi__tab_selected_holo=0x7f020062;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020063;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020064;
-        public static final int vpi__tab_unselected_holo=0x7f020065;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f020066;
-        public static final int yuanjiaokapian_bg=0x7f020067;
+        public static final int icon_relaxrain=0x7f020059;
+        public static final int main_bg_00=0x7f02005a;
+        public static final int main_bg_01=0x7f02005b;
+        public static final int main_bg_02=0x7f02005c;
+        public static final int main_bg_03=0x7f02005d;
+        public static final int main_bg_04=0x7f02005e;
+        public static final int main_btn_selector=0x7f02005f;
+        public static final int main_dialog_btn_selector=0x7f020060;
+        public static final int main_divider_vertical=0x7f020061;
+        public static final int main_download=0x7f020062;
+        public static final int main_more=0x7f020063;
+        public static final int main_pause=0x7f020064;
+        public static final int main_play=0x7f020065;
+        public static final int main_timer=0x7f020066;
+        public static final int main_timer_bg=0x7f020067;
+        public static final int vpi__tab_selected_focused_holo=0x7f020068;
+        public static final int vpi__tab_selected_holo=0x7f020069;
+        public static final int vpi__tab_selected_pressed_holo=0x7f02006a;
+        public static final int vpi__tab_unselected_focused_holo=0x7f02006b;
+        public static final int vpi__tab_unselected_holo=0x7f02006c;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f02006d;
+        public static final int yuanjiaokapian_bg=0x7f02006e;
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f060049;
@@ -1224,14 +1232,15 @@ containing a value of this type.
         public static final int end=0x7f060013;
         public static final int expand_activities_button=0x7f060026;
         public static final int expanded_menu=0x7f06002c;
-        public static final int give_me_5=0x7f060051;
+        public static final int fragmentMain_iv_bg=0x7f06004d;
+        public static final int give_me_5=0x7f060052;
         public static final int home=0x7f060014;
         public static final int homeAsUp=0x7f060005;
         public static final int icon=0x7f06002a;
         public static final int ifRoom=0x7f06000a;
         public static final int image=0x7f060027;
-        public static final int imageView1=0x7f06004d;
-        public static final int imageView2=0x7f06004e;
+        public static final int imageView1=0x7f06004e;
+        public static final int imageView2=0x7f06004f;
         public static final int layout_bottom=0x7f06003f;
         public static final int listMode=0x7f060001;
         public static final int list_item=0x7f060029;
@@ -1246,7 +1255,7 @@ containing a value of this type.
         public static final int main_tv_timer=0x7f060045;
         public static final int main_viewPager=0x7f06003e;
         public static final int middle=0x7f060012;
-        public static final int more_app=0x7f060052;
+        public static final int more_app=0x7f060053;
         public static final int never=0x7f060009;
         public static final int none=0x7f060010;
         public static final int normal=0x7f060000;
@@ -1271,8 +1280,8 @@ containing a value of this type.
         public static final int submit_area=0x7f060039;
         public static final int tabMode=0x7f060002;
         public static final int tabs=0x7f06003d;
-        public static final int textView1=0x7f06004f;
-        public static final int textView2=0x7f060050;
+        public static final int textView1=0x7f060050;
+        public static final int textView2=0x7f060051;
         public static final int timerdialog_tv_progress=0x7f060048;
         public static final int title=0x7f06002b;
         public static final int top_action_bar=0x7f060020;
@@ -1344,7 +1353,6 @@ containing a value of this type.
         public static final int rainy=0x7f050000;
     }
     public static final class string {
-        public static final int _90=0x7f0b0010;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abc_action_bar_home_description=0x7f0b0001;
@@ -1387,6 +1395,7 @@ containing a value of this type.
         public static final int abc_shareactionprovider_share_with_application=0x7f0b000b;
         public static final int action_settings=0x7f0b000f;
         public static final int app_name=0x7f0b000d;
+        public static final int dialogPick_process_max=0x7f0b0010;
         public static final int hello_world=0x7f0b000e;
     }
     public static final class style {

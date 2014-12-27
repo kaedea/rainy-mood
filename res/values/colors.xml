@@ -3,4 +3,5 @@
     <color name="background_tab_pressed">#6633B5E5</color>
     <color name="common_transparent">#00000000</color>
     <color name="grey">#ddd</color>
+    <color name="common_blue">#99008BFF</color>
 </resources>

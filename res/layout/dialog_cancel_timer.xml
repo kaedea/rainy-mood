@@ -17,9 +17,14 @@
             android:textSize="20sp"
             android:text="确定取消自动关闭？" />
     </LinearLayout>
-
+<LinearLayout
+     android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#999" >
+    </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="40dp"
+       
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal" >

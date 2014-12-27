@@ -10,26 +10,59 @@ import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * A placeholder fragment containing a simple view.
  */
-@SuppressLint("ValidFragment") 
+@SuppressLint("ValidFragment")
 public class MainFragment extends Fragment {
 
-    private int pos;
+	private int pos;
 
 	public MainFragment(int posintion) {
-    	pos = posintion;
-    }
+		pos = posintion;
+	}
+	
+	public MainFragment() {
+		pos = 0;
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        /*TextView tv = (TextView) rootView.findViewById(R.id.pager_txt);
-        tv.setText(String.valueOf(pos));*/
-        return rootView;
-    }
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View rootView = inflater.inflate(R.layout.fragment_main, container,
+				false);
+		ImageView iv_bg = (ImageView) rootView
+				.findViewById(R.id.fragmentMain_iv_bg);
+		iv_bg.setImageResource(getBgResource(pos));
+		return rootView;
+	}
+
+	private int getBgResource(int position) {
+		int resid = 0;
+		switch (position) {
+		case 0:
+			resid = R.drawable.main_bg_00;
+			break;
+		case 1:
+			resid = R.drawable.main_bg_01;
+			break;
+		case 2:
+			resid = R.drawable.main_bg_02;
+			break;
+		case 3:
+			resid = R.drawable.main_bg_03;
+			break;
+		case 4:
+			resid = R.drawable.main_bg_04;
+			break;
+
+		default:
+			resid = R.drawable.main_bg_00;
+			break;
+		}
+		return resid;
+	}
 }
