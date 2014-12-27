@@ -9,7 +9,7 @@
     android:background="#ddd" >
 
     <LinearLayout 
-        android:background="@drawable/yuanjiaokapian_bg"
+        android:background="@drawable/cardui_round_bg"
        android:layout_width="match_parent"
        android:paddingTop="5dp"
        android:paddingBottom="6dp"

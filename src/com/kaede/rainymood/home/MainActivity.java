@@ -27,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -35,6 +36,12 @@ import com.astuetz.PagerSlidingTabStrip;
 import com.kaede.rainymood.EventPlayer;
 import com.kaede.rainymood.EventTimer;
 import com.kaede.rainymood.R;
+import com.qq.e.ads.AdListener;
+import com.qq.e.ads.AdRequest;
+import com.qq.e.ads.AdSize;
+import com.qq.e.ads.AdView;
+import com.qq.e.ads.InterstitialAd;
+import com.qq.e.ads.InterstitialAdListener;
 
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -64,6 +71,16 @@ public class MainActivity extends ActionBarActivity {
 		intitView();
 		setListener();
 		startService(new Intent(MainActivity.this, MainService.class));
+		
+		if (MainService.isPlaying) {
+			main_iv_play.setImageResource(R.drawable.main_pause);
+		} else {
+			main_iv_play.setImageResource(R.drawable.main_play);
+		}
+		
+		if (MainService.startTimer) {
+			findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
+		}
 	}
 
 	public void intitView() {
@@ -198,7 +215,7 @@ public class MainActivity extends ActionBarActivity {
 		startPlay();
 		findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
 		EventBus.getDefault().post(new EventTimer(EventTimer.START_TIMER,millis));
-		MainService.startTimer=false;
+		MainService.startTimer=true;
 	}
 
 	private void cancelTimer() {
@@ -251,22 +268,87 @@ public class MainActivity extends ActionBarActivity {
 		return minute+":"+second;
 	}
 	
+	private void addBannerAd()
+	{
+		RelativeLayout l = (RelativeLayout)findViewById(R.id.main_bannercontainer);
+		// 创建Banner广告AdView对象
+		// appId : 在 http://e.qq.com/dev/ 能看到的app唯一字符串
+		// posId : 在 http://e.qq.com/dev/ 生成的数字串，并非 appid 或者 appkey
+		AdView adv = new AdView(this, AdSize.BANNER, "1103836151", "3050809089514224");
+		l.addView(adv);
+		// 广告请求数据，可以设置广告轮播时间，默认为30s
+		AdRequest adr = new AdRequest();
+		//设置广告刷新时间，为30~120之间的数字，单位为s,0标识不自动刷新
+		adr.setRefresh(30);
+		//在banner广告上展示关闭按钮
+		adr. setShowCloseBtn(true);
+		//设置空广告和首次收到广告数据回调
+		//调用fetchAd方法后会发起广告请求 */
+		adv.setAdListener(new AdListener() {
+		//加载广告失败时的回调
+		public void onNoAd() {  }
+		//加载广告成功时的回调
+		public void onAdReceiv() { }
+		//Banner关闭时的回调，仅在展示Banner关闭按钮时有效
+		public void onBannerClosed() { }
+		//Banner广告曝光时的回调
+		public void onAdExposure() { }
+		public void onAdClicked() {
+		}
+		});
+		/* 发起广告请求，收到广告数据后会展示数据 */
+		adv.fetchAd(adr);
+	}
+	
+	private void ad()
+	{
+	//  创建插屏广告
+	//  appId : 在 http://e.qq.com/dev/ 能看到的app唯一字符串
+	// posId : 在 http://e.qq.com/dev/ 生成的数字串，并非 appid 或者 appkey
+	final InterstitialAd iad = new InterstitialAd(this, "1103836151","3050809089514224");
+	iad.setAdListener(new InterstitialAdListener() {
+	@Override
+	public void onFail() {
+	//广告出错时的回调
+	}
+	@Override
+	public void onBack() {
+	//广告关闭时的回调
+	}
+	@Override
+	public void onAdReceive() {
+	//广告数据收到时的回调。在收到广告后可以调用 InterstitialAd.show 方法展示插屏
+	}
+	@Override
+	public void onClicked() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onExposure() {
+		// TODO Auto-generated method stub
+		
+	}
+	});
+	//请求插屏广告，每次重新请求都可以调用此方法。
+	iad.loadAd();
+	/*
+	* 展示插屏广告
+	* 仅在adreceive事件发生后调用才有效。
+	* IntersititialAd.show 方法会开启一个透明的activity
+	*如广告情景不合适，也可考虑InterstitialAd.showAsPopupWindow
+	*配套的关闭方法为closePopupWindow
+	* 优先建议调用show
+	*/
+	iad.show();
+	}
+	
 	@Override
 	protected void onResume() {
-		
-		if (MainService.isPlaying) {
-			main_iv_play.setImageResource(R.drawable.main_pause);
-		} else {
-			main_iv_play.setImageResource(R.drawable.main_play);
-		}
-		
-		if (MainService.startTimer) {
-			findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
-		}
-		
 		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE",MODE_PRIVATE);
 		int current =sp.getInt("CURRENT_TAB", 0);
 		viewPager.setCurrentItem(current);
+		
 		super.onResume();
 	}
 
@@ -323,7 +405,7 @@ public class MainActivity extends ActionBarActivity {
 		 */
 
 	NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification n = new Notification(R.drawable.ic_launcher, "正在播放雨声",
+		Notification n = new Notification(R.drawable.icon_relaxrain, "正在播放雨声",
 				System.currentTimeMillis());
 		n.flags = Notification.FLAG_AUTO_CANCEL;
 		Intent i = new Intent(this, MainActivity.class);
