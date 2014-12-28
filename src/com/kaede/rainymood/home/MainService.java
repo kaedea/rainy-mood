@@ -2,10 +2,12 @@ package com.kaede.rainymood.home;
 
 
 
-import com.kaede.rainymood.EventPlayer;
-import com.kaede.rainymood.EventTimer;
+import thirdparty.de.greenrobot.event.EventBus;
+
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.R.raw;
+import com.kaede.rainymood.entity.EventPlayer;
+import com.kaede.rainymood.entity.EventTimer;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -21,7 +23,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.Toast;
-import de.greenrobot.event.EventBus;
  
 public class MainService extends Service {
     public static final String TAG = "MainService";

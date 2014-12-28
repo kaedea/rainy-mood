@@ -16,10 +16,10 @@ import com.qq.e.ads.InterstitialAdListener;
  * @version v0.1 2014-12-28 02:39:52
  */
 public class AdManagerQQ {
-	public static final Boolean TEST_MODE =true;
-	public static final String APPId = "1101152570";
-	public static final String BannerId = "9079537218417626401";
-	public static final String InterteristalId = "8575134060152130849";
+	public static final Boolean TEST_MODE =false;
+	public static final String APPId = "1150076575";
+	public static final String BannerId = "4040404069629757";
+	public static final String InterteristalId = "8010309069022778";
 	
 	public static void addBanner(Activity activity,ViewGroup container){
 		/*

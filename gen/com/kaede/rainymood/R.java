@@ -1084,22 +1084,21 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int background_tab=0x7f020057;
         public static final int cardui_round_bg=0x7f020058;
-        public static final int ic_launcher=0x7f020059;
-        public static final int icon_relaxrain=0x7f02005a;
-        public static final int main_bg_00=0x7f02005b;
-        public static final int main_bg_01=0x7f02005c;
-        public static final int main_bg_02=0x7f02005d;
-        public static final int main_bg_03=0x7f02005e;
-        public static final int main_bg_04=0x7f02005f;
-        public static final int main_btn_selector=0x7f020060;
-        public static final int main_dialog_btn_selector=0x7f020061;
-        public static final int main_divider_vertical=0x7f020062;
-        public static final int main_download=0x7f020063;
-        public static final int main_more=0x7f020064;
-        public static final int main_pause=0x7f020065;
-        public static final int main_play=0x7f020066;
-        public static final int main_timer=0x7f020067;
-        public static final int main_timer_bg=0x7f020068;
+        public static final int ic_launcher_rain=0x7f020059;
+        public static final int main_bg_00=0x7f02005a;
+        public static final int main_bg_01=0x7f02005b;
+        public static final int main_bg_02=0x7f02005c;
+        public static final int main_bg_03=0x7f02005d;
+        public static final int main_bg_04=0x7f02005e;
+        public static final int main_btn_selector=0x7f02005f;
+        public static final int main_dialog_btn_selector=0x7f020060;
+        public static final int main_divider_vertical=0x7f020061;
+        public static final int main_download=0x7f020062;
+        public static final int main_more=0x7f020063;
+        public static final int main_pause=0x7f020064;
+        public static final int main_play=0x7f020065;
+        public static final int main_timer=0x7f020066;
+        public static final int main_timer_bg=0x7f020067;
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f060049;

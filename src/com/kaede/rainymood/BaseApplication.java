@@ -6,7 +6,7 @@ import android.util.Log;
 public class BaseApplication extends Application {
 
 	private static final String GITHUB_URL = "https://github.com/kidhaibara/rainymood.git";
-	private static final String TAG = "kaede";
+	private static final String TAG = "BaseApplication";
 
 	@Override
 	public void onCreate() {

@@ -1,7 +1,12 @@
 package com.kaede.rainymood.home;
 
 import java.util.concurrent.TimeUnit;
+import java.util.jar.Attributes.Name;
 
+import thirdparty.com.astuetz.PagerSlidingTabStrip;
+import thirdparty.de.greenrobot.event.EventBus;
+import thirdparty.de.keyboardsurfer.android.widget.crouton.Crouton;
+import thirdparty.de.keyboardsurfer.android.widget.crouton.Style;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,15 +36,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.kaede.advertise.AdManagerQQ;
-import com.kaede.rainymood.EventPlayer;
-import com.kaede.rainymood.EventTimer;
 import com.kaede.rainymood.R;
-
-import de.greenrobot.event.EventBus;
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
+import com.kaede.rainymood.entity.EventPlayer;
+import com.kaede.rainymood.entity.EventTimer;
+import com.kaede.utils.DeviceUtils;
+import com.kaede.utils.NavigationUtils;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -110,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				Crouton.makeText(MainActivity.this, "Coming Soon", Style.INFO).show(true);
+				Crouton.makeText(MainActivity.this, "在线雨声资源正在搭建中，请注意更新", Style.INFO).show(true);
 			}
 		});
 		findViewById(R.id.main_layout_timer).setOnClickListener(new OnClickListener() {
@@ -184,6 +186,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View arg0) {
 
 				startTimer(((seekBar.getProgress() + 1) * 60 + 1) * 1000);
+				Crouton.makeText(MainActivity.this, "点击标签可取消倒计时", Style.INFO).show(true);
 				dialog.dismiss();
 			}
 		});
@@ -277,6 +280,7 @@ public class MainActivity extends ActionBarActivity {
 		int id = item.getItemId();
 		switch (id) {
 		case R.id.menu_main_give_me_5:
+			NavigationUtils.navigateToMarket(this, DeviceUtils.getpackageName(this));
 			break;
 			
 		case R.id.menu_main_more_apps:
@@ -316,7 +320,7 @@ public class MainActivity extends ActionBarActivity {
 		 */
 
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification n = new Notification(R.drawable.icon_relaxrain, "正在播放雨声", System.currentTimeMillis());
+		Notification n = new Notification(R.drawable.ic_launcher_rain, "正在播放雨声", System.currentTimeMillis());
 		n.flags = Notification.FLAG_AUTO_CANCEL;
 		Intent i = new Intent(this, MainActivity.class);
 		// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
