@@ -14,27 +14,28 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="确定取消自动关闭？" />
+            android:text="确定取消自动关闭？"
+            android:textSize="20sp" />
     </LinearLayout>
-<LinearLayout
-     android:layout_marginTop="40dp"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginTop="40dp"
         android:background="#999" >
     </LinearLayout>
+
     <LinearLayout
-       
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:orientation="horizontal" >
 
         <LinearLayout
-            android:id="@+id/dialogCancelTimer_cancel"
+            android:id="@+id/layout_dialog_cancel_timer_cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/main_dialog_btn_selector"
+            android:background="@drawable/selector_main_dialog"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -52,11 +53,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/main_dialog_btn_selector"
-            android:id="@+id/dialogCancelTimer_confirm"
+            android:id="@+id/layout_dialog_cancel_timer_confirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/selector_main_dialog"
             android:gravity="center"
             android:orientation="vertical" >
 

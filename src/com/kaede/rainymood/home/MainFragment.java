@@ -1,6 +1,6 @@
 package com.kaede.rainymood.home;
 
-import com.kaede.advertise.AdManagerQQ;
+import com.kaede.common.ad.AdManagerQQ;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.R.layout;
 
@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		ImageView iv_bg = (ImageView) rootView
-				.findViewById(R.id.fragmentMain_iv_bg);
+				.findViewById(R.id.iv_main_fragment_bg);
 		iv_bg.setImageResource(getBgResource(pos));
 		return rootView;
 	}
@@ -50,7 +50,7 @@ public class MainFragment extends Fragment {
 
 	private void ad_addbanner() {
 		if (pos==0) {
-			RelativeLayout container = (RelativeLayout) getView().findViewById(R.id.fragmentMain_bannercontainer);
+			RelativeLayout container = (RelativeLayout) getView().findViewById(R.id.layout_main_fragment_banner);
 			AdManagerQQ.addBanner(getActivity(), container);
 		}
 	}

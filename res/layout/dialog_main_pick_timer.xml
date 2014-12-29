@@ -25,14 +25,13 @@
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/timerdialog_tv_progress"
+            android:id="@+id/tv_dialog_pick_timer_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="30" />
     </LinearLayout>
 
     <RelativeLayout
-        android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -48,7 +47,7 @@
             android:text="1" />
 
         <SeekBar
-            android:id="@+id/main_seekbar"
+            android:id="@+id/seekbar_dialog_pick_timer"
             android:max="89"
             android:progress="29"
             android:layout_width="match_parent"
@@ -78,11 +77,11 @@
         android:orientation="horizontal" >
 
         <LinearLayout
-            android:id="@+id/main_dialog_cancel"
+            android:id="@+id/layout_dialog_pick_timer_cancel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/main_dialog_btn_selector"
+            android:background="@drawable/selector_main_dialog"
             android:gravity="center"
             android:orientation="vertical" >
 
@@ -100,8 +99,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/main_dialog_btn_selector"
-            android:id="@+id/main_dialog_confirm"
+            android:background="@drawable/selector_main_dialog"
+            android:id="@+id/layout_dialog_pick_timer_confirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

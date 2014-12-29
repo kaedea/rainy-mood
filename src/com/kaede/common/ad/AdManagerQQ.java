@@ -1,4 +1,4 @@
-package com.kaede.advertise;
+package com.kaede.common.ad;
 
 import android.app.Activity;
 import android.util.Log;

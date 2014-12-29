@@ -18,14 +18,14 @@
         android:paddingTop="5dp" >
 
         <ImageView
-            android:id="@+id/fragmentMain_iv_bg"
+            android:id="@+id/iv_main_fragment_bg"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/main_bg_00" />
 
         <RelativeLayout
-            android:id="@+id/fragmentMain_bannercontainer"
+            android:id="@+id/layout_main_fragment_banner"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true" />

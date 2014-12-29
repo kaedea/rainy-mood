@@ -36,12 +36,12 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
-import com.kaede.advertise.AdManagerQQ;
+import com.kaede.common.ad.AdManagerQQ;
+import com.kaede.common.util.DeviceUtils;
+import com.kaede.common.util.NavigationUtils;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.entity.EventPlayer;
 import com.kaede.rainymood.entity.EventTimer;
-import com.kaede.utils.DeviceUtils;
-import com.kaede.utils.NavigationUtils;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -74,48 +74,48 @@ public class MainActivity extends ActionBarActivity {
 		}
 
 		if (MainService.startTimer) {
-			findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
+			findViewById(R.id.layout_main_timer_container).setVisibility(View.VISIBLE);
 		}
 	}
 
 	public void intitView() {
-		viewPager = (ViewPager) this.findViewById(R.id.main_viewPager);
+		viewPager = (ViewPager) this.findViewById(R.id.viewPager_main);
 
 		MainFragmentStateAdapter mainFragmentStateAdapter = new MainFragmentStateAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mainFragmentStateAdapter);
 
-		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this.findViewById(R.id.tabs);
+		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this.findViewById(R.id.tabs_main);
 		tabs.setViewPager(viewPager);
 		tabs.setIndicatorColorResource(R.color.common_blue);
 
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
 
-		tv_timer = (TextView) MainActivity.this.findViewById(R.id.main_tv_timer);
+		tv_timer = (TextView) MainActivity.this.findViewById(R.id.tv_main_timer);
 
 	}
 
 	public void setListener() {
-		findViewById(R.id.main_btn_timer).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.layout_main_timer).setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				showSetTimerDialog();
 			}
 		});
-		findViewById(R.id.main_btn_play).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.layout_main_play).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				play();
 			}
 		});
-		findViewById(R.id.main_btn_download).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.layout_main_download).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Crouton.makeText(MainActivity.this, "在线雨声资源正在搭建中，请注意更新", Style.INFO).show(true);
 			}
 		});
-		findViewById(R.id.main_layout_timer).setOnClickListener(new OnClickListener() {
+		findViewById(R.id.layout_main_timer_container).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -148,9 +148,9 @@ public class MainActivity extends ActionBarActivity {
 	private void showSetTimerDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
-		View view_dialog = factory.inflate(R.layout.dialog_pick_timer, null);
-		seekBar = (SeekBar) view_dialog.findViewById(R.id.main_seekbar);
-		final TextView tv_progress = (TextView) view_dialog.findViewById(R.id.timerdialog_tv_progress);
+		View view_dialog = factory.inflate(R.layout.dialog_main_pick_timer, null);
+		seekBar = (SeekBar) view_dialog.findViewById(R.id.seekbar_dialog_pick_timer);
+		final TextView tv_progress = (TextView) view_dialog.findViewById(R.id.tv_dialog_pick_timer_progress);
 		seekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
 
 			@Override
@@ -173,14 +173,14 @@ public class MainActivity extends ActionBarActivity {
 		});
 		builder.setView(view_dialog);
 		final Dialog dialog = builder.create();
-		view_dialog.findViewById(R.id.main_dialog_cancel).setOnClickListener(new OnClickListener() {
+		view_dialog.findViewById(R.id.layout_dialog_pick_timer_cancel).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
 			}
 		});
-		view_dialog.findViewById(R.id.main_dialog_confirm).setOnClickListener(new OnClickListener() {
+		view_dialog.findViewById(R.id.layout_dialog_pick_timer_confirm).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
@@ -196,15 +196,15 @@ public class MainActivity extends ActionBarActivity {
 	private void startTimer(long millis) {
 		cancelTimer();
 		startPlay();
-		findViewById(R.id.main_layout_timer).setVisibility(View.VISIBLE);
+		findViewById(R.id.layout_main_timer_container).setVisibility(View.VISIBLE);
 		EventBus.getDefault().post(new EventTimer(EventTimer.START_TIMER, millis));
 		MainService.startTimer = true;
 	}
 
 	private void cancelTimer() {
 		EventBus.getDefault().post(new EventTimer(EventTimer.CANCEL_TIMER));
-		if (findViewById(R.id.main_layout_timer).getVisibility() == View.VISIBLE) {
-			findViewById(R.id.main_layout_timer).setVisibility(View.INVISIBLE);
+		if (findViewById(R.id.layout_main_timer_container).getVisibility() == View.VISIBLE) {
+			findViewById(R.id.layout_main_timer_container).setVisibility(View.INVISIBLE);
 		}
 		MainService.startTimer = false;
 	}
@@ -212,17 +212,17 @@ public class MainActivity extends ActionBarActivity {
 	private void showCancelTimerDialog() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
 		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
-		View view_dialog = factory.inflate(R.layout.dialog_cancel_timer, null);
+		View view_dialog = factory.inflate(R.layout.dialog_main_cancel_timer, null);
 		builder.setView(view_dialog);
 		final Dialog dialog = builder.create();
-		view_dialog.findViewById(R.id.dialogCancelTimer_cancel).setOnClickListener(new OnClickListener() {
+		view_dialog.findViewById(R.id.layout_dialog_cancel_timer_cancel).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				dialog.dismiss();
 			}
 		});
-		view_dialog.findViewById(R.id.dialogCancelTimer_confirm).setOnClickListener(new OnClickListener() {
+		view_dialog.findViewById(R.id.layout_dialog_cancel_timer_confirm).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
