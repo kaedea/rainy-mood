@@ -12,7 +12,7 @@ import com.qq.e.ads.InterstitialAd;
 import com.qq.e.ads.InterstitialAdListener;
 
 /**
- * @author kaede
+ * @author kaede 
  * @version v0.1 2014-12-28 02:39:52
  */
 public class AdManagerQQ {
