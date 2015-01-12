@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.drawable.ClipDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -91,7 +92,9 @@ public class MainActivity extends ActionBarActivity {
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
 
 		tv_timer = (TextView) MainActivity.this.findViewById(R.id.tv_main_timer);
-
+		ImageView iv_main_progress=(ImageView) findViewById(R.id.iv_main_progress);
+		ClipDrawable clipDrawable = (ClipDrawable) iv_main_progress.getDrawable();
+		clipDrawable.setLevel(1000);
 	}
 
 	public void setListener() {

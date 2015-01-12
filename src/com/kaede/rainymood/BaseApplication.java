@@ -5,7 +5,7 @@ import android.util.Log;
 
 /**
  * @author kaede
- * github https://github.com/kidhaibara/Rainy-Mood.git
+ * github https://github.com/kidhaibara/rainymood.git
  */
 public class BaseApplication extends Application {
 
