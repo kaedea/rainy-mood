@@ -3,9 +3,12 @@ package com.kaede.rainymood;
 import android.app.Application;
 import android.util.Log;
 
+/**
+ * @author kaede
+ * github https://github.com/kidhaibara/Rainy-Mood.git
+ */
 public class BaseApplication extends Application {
 
-	private static final String GITHUB_URL = "https://github.com/kidhaibara/rainymood.git";
 	private static final String TAG = "BaseApplication";
 
 	@Override
