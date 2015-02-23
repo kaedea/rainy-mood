@@ -1,7 +1,6 @@
 package com.kaede.rainymood.home;
 
 import java.util.concurrent.TimeUnit;
-import java.util.jar.Attributes.Name;
 
 import thirdparty.com.astuetz.PagerSlidingTabStrip;
 import thirdparty.de.greenrobot.event.EventBus;
@@ -14,13 +13,15 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.drawable.ClipDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -32,6 +33,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -40,9 +42,11 @@ import android.widget.TextView;
 import com.kaede.common.ad.AdManagerQQ;
 import com.kaede.common.util.DeviceUtils;
 import com.kaede.common.util.NavigationUtils;
+import com.kaede.common.util.ResolutionUtil;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.entity.EventPlayer;
 import com.kaede.rainymood.entity.EventTimer;
+import com.nineoldandroids.animation.ObjectAnimator;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -51,6 +55,7 @@ public class MainActivity extends ActionBarActivity {
 	private TextView tv_timer;
 	private SeekBar seekBar;
 	private ViewPager viewPager;
+	Handler _handler = new Handler(Looper.getMainLooper());
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -64,6 +69,7 @@ public class MainActivity extends ActionBarActivity {
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this);
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
+		//getSupportActionBar().
 		intitView();
 		setListener();
 		startService(new Intent(MainActivity.this, MainService.class));
@@ -72,11 +78,15 @@ public class MainActivity extends ActionBarActivity {
 			main_iv_play.setImageResource(R.drawable.main_pause);
 		} else {
 			main_iv_play.setImageResource(R.drawable.main_play);
+			postAnimator(findViewById(R.id.layout_main_play),false,1000);
 		}
 
 		if (MainService.startTimer) {
 			findViewById(R.id.layout_main_timer_container).setVisibility(View.VISIBLE);
+		}else{
+			postAnimator(findViewById(R.id.layout_main_timer),false,1300);
 		}
+		postAnimator(findViewById(R.id.layout_main_download),false,1600);
 	}
 
 	public void intitView() {
@@ -87,14 +97,17 @@ public class MainActivity extends ActionBarActivity {
 
 		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this.findViewById(R.id.tabs_main);
 		tabs.setViewPager(viewPager);
-		tabs.setIndicatorColorResource(R.color.common_blue);
-
+		tabs.setTextColorResource(R.color.common_white);
+		tabs.setTextSize(ResolutionUtil.spToPx(this, 14f));
+		
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
 
 		tv_timer = (TextView) MainActivity.this.findViewById(R.id.tv_main_timer);
-		ImageView iv_main_progress=(ImageView) findViewById(R.id.iv_main_progress);
+		
+		/*ImageView iv_main_progress=(ImageView) findViewById(R.id.iv_main_progress);
 		ClipDrawable clipDrawable = (ClipDrawable) iv_main_progress.getDrawable();
-		clipDrawable.setLevel(1000);
+		clipDrawable.setLevel(9000);*/
+		//ViewHelper.setTranslationY(, 50);
 	}
 
 	public void setListener() {
@@ -102,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
 
 			public void onClick(View v) {
 				showSetTimerDialog();
+				postAnimator(findViewById(R.id.layout_main_timer),true,0);
 			}
 		});
 		findViewById(R.id.layout_main_play).setOnClickListener(new OnClickListener() {
@@ -116,6 +130,8 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				Crouton.makeText(MainActivity.this, "在线雨声资源正在搭建中，请注意更新", Style.INFO).show(true);
+				postAnimator(findViewById(R.id.layout_main_download),true,0);
+				postAnimator(findViewById(R.id.layout_main_download),false,3000);
 			}
 		});
 		findViewById(R.id.layout_main_timer_container).setOnClickListener(new OnClickListener() {
@@ -125,6 +141,40 @@ public class MainActivity extends ActionBarActivity {
 				showCancelTimerDialog();
 			}
 		});
+	}
+	
+	private void postAnimator(final View v, Boolean inOrOut, int delayMillis) {
+		if (inOrOut) {
+			getHandler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					animateIn(v);
+				}
+			}, delayMillis);
+		} else {
+			getHandler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					animateOut(v);
+				}
+			}, delayMillis);
+		}
+	}
+	
+	private void animateOut(View v){
+		Log.d(TAG, "animateOut");
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, "translationY",0f,ResolutionUtil.dipToPx(this, 24f));
+		objectAnimator.setDuration(2000);
+		objectAnimator.setInterpolator(new BounceInterpolator());
+		objectAnimator.start();
+	}
+	
+	private void animateIn(View v){
+		Log.d(TAG, "animateIn");
+		ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(v, "translationY",ResolutionUtil.dipToPx(this, 24f),0f);
+		objectAnimator.setDuration(2000);
+		objectAnimator.setInterpolator(new BounceInterpolator());
+		objectAnimator.start();
 	}
 
 	private void play() {
@@ -136,12 +186,17 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void startPlay() {
+		postAnimator(findViewById(R.id.layout_main_play),true,0);
 		EventBus.getDefault().post(new EventPlayer(EventPlayer.PLAY));
 		main_iv_play.setImageResource(R.drawable.main_pause);
 		MainService.isPlaying = true;
 	}
 
 	private void stopPlay() {
+		postAnimator(findViewById(R.id.layout_main_play),false,0);
+		if (MainService.startTimer) {
+			postAnimator(findViewById(R.id.layout_main_timer),false,0);
+		}
 		EventBus.getDefault().post(new EventPlayer(EventPlayer.PAUSE));
 		main_iv_play.setImageResource(R.drawable.main_play);
 		cancelTimer();
@@ -187,10 +242,17 @@ public class MainActivity extends ActionBarActivity {
 
 			@Override
 			public void onClick(View arg0) {
-
 				startTimer(((seekBar.getProgress() + 1) * 60 + 1) * 1000);
 				Crouton.makeText(MainActivity.this, "点击标签可取消倒计时", Style.INFO).show(true);
 				dialog.dismiss();
+			}
+		});
+		dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				if (!MainService.startTimer){
+					postAnimator(findViewById(R.id.layout_main_timer),false,0);
+				}
 			}
 		});
 		dialog.show();
@@ -233,6 +295,15 @@ public class MainActivity extends ActionBarActivity {
 				dialog.dismiss();
 			}
 		});
+		
+		dialog.setOnDismissListener(new OnDismissListener() {
+			@Override
+			public void onDismiss(DialogInterface arg0) {
+				if (!MainService.startTimer){
+					postAnimator(findViewById(R.id.layout_main_timer),false,0);
+				}
+			}
+		});
 
 		dialog.show();
 	}
@@ -252,14 +323,15 @@ public class MainActivity extends ActionBarActivity {
 		return minute + ":" + second;
 	}
 
-
+	private Handler getHandler(){
+		return _handler;
+	}
 
 	@Override
 	protected void onResume() {
 		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE", MODE_PRIVATE);
 		int current = sp.getInt("CURRENT_TAB", 0);
 		viewPager.setCurrentItem(current);
-
 		super.onResume();
 	}
 
@@ -354,7 +426,7 @@ public class MainActivity extends ActionBarActivity {
 
 	public static final class MainFragmentStateAdapter extends FragmentStatePagerAdapter {
 
-		private final String[] TITLES = { "Rainy", "Mood", "Always", "Calm", "Everything" };
+		private final String[] TITLES = { "SWEET", "SLEEP", "WITH", "RAINY", "MOOD" };
 
 		public MainFragmentStateAdapter(FragmentManager fm) {
 			super(fm);

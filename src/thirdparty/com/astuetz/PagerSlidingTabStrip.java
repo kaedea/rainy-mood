@@ -18,6 +18,7 @@ package thirdparty.com.astuetz;
 
 import java.util.Locale;
 
+import com.kaede.common.util.ResolutionUtil;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.R.drawable;
 import com.kaede.rainymood.R.styleable;
@@ -336,7 +337,9 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 			lineRight = (currentPositionOffset * nextTabRight + (1f - currentPositionOffset) * lineRight);
 		}
 
-		canvas.drawRect(lineLeft, height - indicatorHeight, lineRight, height, rectPaint);
+		//减少Indicator的长度
+		int length = ResolutionUtil.dipToPx(getContext(), 24f);
+		canvas.drawRect(lineLeft+length, height - indicatorHeight, lineRight-length, height, rectPaint);
 
 		// draw underline
 
