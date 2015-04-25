@@ -6,5 +6,10 @@
     <color name="common_blue">#99008BFF</color>
     <color name="common_white">#FFFFFF</color>
     
+    <color name="light_blue_500_dd">#dd03A9F4</color>
     <color name="light_blue_500">#03A9F4</color>
+    <color name="light_blue_500_99">#9903A9F4</color>
+    <color name="light_blue_400">#4FC3F7</color>
+    <color name="light_blue_200">#81D4FA</color>
+    <color name="light_blue_800">#0277BD</color>
 </resources>

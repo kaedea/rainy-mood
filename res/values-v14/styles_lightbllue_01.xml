@@ -31,10 +31,15 @@
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lightbllue_01</item>
         
         <item name="android:windowContentOverlay">@null</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         
                 <!-- Light.DarkActionBar specific -->
         <item name="android:actionBarWidgetTheme">@style/Theme.Lightbllue_01.Widget</item>
 
+    </style>
+    
+     <style name="OverFlow" parent="@style/Widget.AppCompat.Light.ActionButton.Overflow">
+        <item name="@android:src">@drawable/ic_action_core_overflow</item>
     </style>
 
     <style name="ActionBar.Solid.Lightbllue_01" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">

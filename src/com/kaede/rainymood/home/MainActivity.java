@@ -3,6 +3,7 @@ package com.kaede.rainymood.home;
 import java.util.concurrent.TimeUnit;
 
 import thirdparty.com.astuetz.PagerSlidingTabStrip;
+import thirdparty.com.nineoldandroids.animation.ObjectAnimator;
 import thirdparty.de.greenrobot.event.EventBus;
 import thirdparty.de.keyboardsurfer.android.widget.crouton.Crouton;
 import thirdparty.de.keyboardsurfer.android.widget.crouton.Style;
@@ -26,8 +27,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,28 +41,37 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.kaede.common.ad.AdManagerMogo;
 import com.kaede.common.ad.AdManagerQQ;
-import com.kaede.common.util.DeviceUtils;
+import com.kaede.common.util.DeviceUtil;
 import com.kaede.common.util.NavigationUtils;
 import com.kaede.common.util.ResolutionUtil;
+import com.kaede.common.util.SharePreferenceUtil;
+import com.kaede.common.util.ToastUtil;
 import com.kaede.rainymood.R;
+import com.kaede.rainymood.RainyConfig;
 import com.kaede.rainymood.entity.EventPlayer;
 import com.kaede.rainymood.entity.EventTimer;
-import com.nineoldandroids.animation.ObjectAnimator;
+import com.kaede.rainymood.util.NavigationUtil;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 public class MainActivity extends ActionBarActivity {
 
+	public static final int NOTIDICATION_ID = 233;
 	private static final String TAG = "MainActivity";
 	private ImageView main_iv_play;
 	private TextView tv_timer;
 	private SeekBar seekBar;
 	private ViewPager viewPager;
 	Handler _handler = new Handler(Looper.getMainLooper());
+	private PagerSlidingTabStrip tabs;
 
+	//----------------- Life Period -----------------//
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 	}
 
@@ -68,11 +80,12 @@ public class MainActivity extends ActionBarActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		EventBus.getDefault().register(this);
+		getSupportActionBar().hide();
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		//getSupportActionBar().
 		intitView();
 		setListener();
-		startService(new Intent(MainActivity.this, MainService.class));
+		//startService(new Intent(MainActivity.this, MainService.class));
 
 		if (MainService.isPlaying) {
 			main_iv_play.setImageResource(R.drawable.main_pause);
@@ -87,15 +100,89 @@ public class MainActivity extends ActionBarActivity {
 			postAnimator(findViewById(R.id.layout_main_timer),false,1300);
 		}
 		postAnimator(findViewById(R.id.layout_main_download),false,1600);
+		
+		int current = SharePreferenceUtil.getInt("CURRENT_TAB", 0);
+		viewPager.setCurrentItem(current);
+        tabs.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				Log.d(TAG, "onPageSelected index="+arg0);
+				EventPlayer event = new EventPlayer(EventPlayer.SWITCH);
+				event.position=arg0;
+				EventBus.getDefault().post(event);
+			}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+        
+        UmengUpdateAgent.setUpdateAutoPopup(true);
+        UmengUpdateAgent.update(this);//UMENG更新
+        MobclickAgent.updateOnlineConfig(this);//UMENG在线参数
+        
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		if (MainService.isPlaying) {
+			// EventBus.getDefault().post(new EventPlayer(2));
+			showNotification();
+		}
+		MobclickAgent.onPause(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		switch (id) {
+		case R.id.menu_main_give_me_5:
+			NavigationUtils.navigateToMarket(this, DeviceUtil.getpackageName(this));
+			break;
+			
+		case R.id.menu_main_more_apps:
+			AdManagerQQ.loadIntertistial(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onDestroy() {
+		Crouton.cancelAllCroutons();
+		EventBus.getDefault().unregister(this);
+		SharePreferenceUtil.putInt("CURRENT_TAB", viewPager.getCurrentItem());
+		AdManagerMogo.clear();
+		super.onDestroy();
+	}
+
+	//----------------- Method -----------------//
 	public void intitView() {
 		viewPager = (ViewPager) this.findViewById(R.id.viewPager_main);
 
 		MainFragmentStateAdapter mainFragmentStateAdapter = new MainFragmentStateAdapter(getSupportFragmentManager());
 		viewPager.setAdapter(mainFragmentStateAdapter);
+		//viewPager.setOffscreenPageLimit(0);
+		
 
-		PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) this.findViewById(R.id.tabs_main);
+		tabs = (PagerSlidingTabStrip) this.findViewById(R.id.tabs_main);
 		tabs.setViewPager(viewPager);
 		tabs.setTextColorResource(R.color.common_white);
 		tabs.setTextSize(ResolutionUtil.spToPx(this, 14f));
@@ -116,6 +203,7 @@ public class MainActivity extends ActionBarActivity {
 			public void onClick(View v) {
 				showSetTimerDialog();
 				postAnimator(findViewById(R.id.layout_main_timer),true,0);
+				MobclickAgent.onEvent(MainActivity.this,"click_main_timer");
 			}
 		});
 		findViewById(R.id.layout_main_play).setOnClickListener(new OnClickListener() {
@@ -123,15 +211,18 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View v) {
 				play();
+				MobclickAgent.onEvent(MainActivity.this,"click_main_play");
 			}
 		});
 		findViewById(R.id.layout_main_download).setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				Crouton.makeText(MainActivity.this, "在线雨声资源正在搭建中，请注意更新", Style.INFO).show(true);
+				//Crouton.makeText(MainActivity.this, "在线雨声资源正在搭建中，请注意更新", Style.INFO).show(true);
+				ToastUtil.toast(MainActivity.this, "高清资源搭建中，敬请期待");
 				postAnimator(findViewById(R.id.layout_main_download),true,0);
 				postAnimator(findViewById(R.id.layout_main_download),false,3000);
+				MobclickAgent.onEvent(MainActivity.this,"click_main_download");
 			}
 		});
 		findViewById(R.id.layout_main_timer_container).setOnClickListener(new OnClickListener() {
@@ -141,6 +232,15 @@ public class MainActivity extends ActionBarActivity {
 				showCancelTimerDialog();
 			}
 		});
+		
+		findViewById(R.id.layout_main_toolbar).setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				NavigationUtil.toAboutAcitivity(MainActivity.this);
+			}
+		});
+		
 	}
 	
 	private void postAnimator(final View v, Boolean inOrOut, int delayMillis) {
@@ -201,6 +301,8 @@ public class MainActivity extends ActionBarActivity {
 		main_iv_play.setImageResource(R.drawable.main_play);
 		cancelTimer();
 		MainService.isPlaying = false;
+		
+		clearNotification();
 	}
 
 	private void showSetTimerDialog() {
@@ -243,7 +345,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onClick(View arg0) {
 				startTimer(((seekBar.getProgress() + 1) * 60 + 1) * 1000);
-				Crouton.makeText(MainActivity.this, "点击标签可取消倒计时", Style.INFO).show(true);
+				ToastUtil.toast(MainActivity.this, "点击标签可取消倒计时");
 				dialog.dismiss();
 			}
 		});
@@ -327,56 +429,7 @@ public class MainActivity extends ActionBarActivity {
 		return _handler;
 	}
 
-	@Override
-	protected void onResume() {
-		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE", MODE_PRIVATE);
-		int current = sp.getInt("CURRENT_TAB", 0);
-		viewPager.setCurrentItem(current);
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		if (MainService.isPlaying) {
-			// EventBus.getDefault().post(new EventPlayer(2));
-			showNotification();
-		}
-		super.onPause();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-		case R.id.menu_main_give_me_5:
-			NavigationUtils.navigateToMarket(this, DeviceUtils.getpackageName(this));
-			break;
-			
-		case R.id.menu_main_more_apps:
-			AdManagerQQ.loadIntertistial(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onDestroy() {
-		Crouton.cancelAllCroutons();
-		EventBus.getDefault().unregister(this);
-		SharedPreferences sp = this.getSharedPreferences("DEFAULT_PRE", MODE_PRIVATE);
-		SharedPreferences.Editor editor = sp.edit();
-		editor.putInt("CURRENT_TAB", viewPager.getCurrentItem()); // value to
-																	// store
-		editor.commit();
-		super.onDestroy();
-	}
-
+	
 	public void showNotification() {
 		/*
 		 * 自定义View NotificationManager notificationManager =
@@ -396,7 +449,7 @@ public class MainActivity extends ActionBarActivity {
 
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		Notification n = new Notification(R.drawable.ic_launcher_rain, "正在播放雨声", System.currentTimeMillis());
-		n.flags = Notification.FLAG_AUTO_CANCEL;
+		n.flags = Notification.FLAG_NO_CLEAR;//FLAG_AUTO_CANCEL为可清除
 		Intent i = new Intent(this, MainActivity.class);
 		// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);
 		// i.setAction(Intent.ACTION_MAIN);
@@ -407,8 +460,12 @@ public class MainActivity extends ActionBarActivity {
 		PendingIntent contentIntent = PendingIntent.getActivity(this, R.string.app_name, i, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		n.setLatestEventInfo(this, "Rainy Mood", "自然的雨声，安静的心情！", contentIntent);
-		nm.notify(R.string.app_name, n);
-
+		nm.notify(NOTIDICATION_ID, n);
+	}
+	
+	public void clearNotification(){
+		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		nm.cancel(NOTIDICATION_ID);
 	}
 
 	public void onEventMainThread(EventTimer e) {
@@ -418,15 +475,16 @@ public class MainActivity extends ActionBarActivity {
 			tv_timer.setText(millsToMS(e.millis));
 			break;
 		case EventTimer.ON_FINISH:
+			postAnimator(findViewById(R.id.layout_main_timer),false,0);
 			MainService.startTimer = false;
 			stopPlay();
 			break;
 		}
 	}
-
+	
+	
+	//----------------- Inner Class -----------------//
 	public static final class MainFragmentStateAdapter extends FragmentStatePagerAdapter {
-
-		private final String[] TITLES = { "SWEET", "SLEEP", "WITH", "RAINY", "MOOD" };
 
 		public MainFragmentStateAdapter(FragmentManager fm) {
 			super(fm);
@@ -434,18 +492,18 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-			return TITLES[position];
+			return RainyConfig.getPagerTitle(position);
 		}
 
 		@Override
 		public int getCount() {
-			return TITLES.length;
+			return RainyConfig.getPagerLength();
 		}
 
 		@Override
 		public Fragment getItem(int arg0) {
 			// TODO Auto-generated method stub
-			return new MainFragment(arg0);
+			return MainFragment.getInstance(arg0);
 		}
 	}
 

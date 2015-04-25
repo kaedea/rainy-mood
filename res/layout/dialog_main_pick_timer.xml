@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/shape_dialog_main_timer_bg"
     android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:gravity="center"
         android:orientation="vertical" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/light_blue_500"
             android:text="请设置自动关闭的时间（分）" />
     </LinearLayout>
     
@@ -28,6 +30,7 @@
             android:id="@+id/tv_dialog_pick_timer_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/light_blue_500"
             android:text="30" />
     </LinearLayout>
 
@@ -44,6 +47,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
+            android:textColor="@color/light_blue_500"
             android:text="1" />
 
         <SeekBar
@@ -61,6 +65,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
+            android:textColor="@color/light_blue_500"
             android:text="90" />
     </RelativeLayout>
 
@@ -68,7 +73,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="25dp"
-        android:background="#999" >
+        android:background="@color/light_blue_200" >
     </LinearLayout>
 
     <LinearLayout
@@ -81,25 +86,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/selector_main_dialog"
             android:gravity="center"
             android:orientation="vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/light_blue_500"
                 android:text="取消" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="1px"
             android:layout_height="match_parent"
-            android:background="#999"
+            android:background="@color/light_blue_200"
             android:orientation="vertical" >
         </LinearLayout>
 
         <LinearLayout
-            android:background="@drawable/selector_main_dialog"
             android:id="@+id/layout_dialog_pick_timer_confirm"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -110,6 +114,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/light_blue_500"
                 android:text="确定" />
         </LinearLayout>
     </LinearLayout>

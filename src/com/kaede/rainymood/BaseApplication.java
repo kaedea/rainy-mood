@@ -1,6 +1,11 @@
 package com.kaede.rainymood;
 
+import com.kaede.common.util.SharePreferenceUtil;
+import com.kaede.rainymood.home.MainActivity;
+import com.kaede.rainymood.home.MainService;
+
 import android.app.Application;
+import android.content.Intent;
 import android.util.Log;
 
 /**
@@ -13,14 +18,16 @@ public class BaseApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		Log.d(TAG,"App onCreate" );
+		startService(new Intent(this, MainService.class));
+		SharePreferenceUtil.init(this);
 		super.onCreate();
 	}
 
 	@Override
 	public void onTerminate() {
 		// TODO Auto-generated method stub
+		stopService(new Intent(this, MainService.class));
 		Log.d(TAG, "App onTerminate");
 		super.onTerminate();
 	}
