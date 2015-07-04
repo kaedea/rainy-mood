@@ -23,7 +23,7 @@ public class ToastUtil {
 			View toastRoot = LayoutInflater.from(context).inflate(R.layout.toast_bg, null);
 			toast=new Toast(context);
 			toast.setView(toastRoot);
-			toast.setGravity(Gravity.CENTER, 0, ResolutionUtil.dipToPx(context, 170f));
+			toast.setGravity(Gravity.CENTER, 0, ResolutionUtil.dipToPx(context, 190f));
 		    tv=(TextView)toastRoot.findViewById(R.id.tv_toast);
 			tv.setText(message);
 			toast.setDuration(Toast.LENGTH_SHORT);
@@ -40,7 +40,7 @@ public class ToastUtil {
 			View toastRoot = LayoutInflater.from(context).inflate(R.layout.toast_bg, null);
 			toast=new Toast(context);
 			toast.setView(toastRoot);
-			toast.setGravity(Gravity.CENTER, 0, ResolutionUtil.dipToPx(context, 170f));
+			toast.setGravity(Gravity.CENTER, 0, ResolutionUtil.dipToPx(context, 190f));
 		    tv=(TextView)toastRoot.findViewById(R.id.tv_toast);
 			tv.setText(message);
 			toast.setDuration(duration);

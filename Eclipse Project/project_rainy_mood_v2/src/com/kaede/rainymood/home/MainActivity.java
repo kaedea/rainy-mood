@@ -1,5 +1,6 @@
 package com.kaede.rainymood.home;
 
+import java.lang.reflect.Field;
 import java.util.concurrent.TimeUnit;
 
 import thirdparty.com.astuetz.PagerSlidingTabStrip;
@@ -17,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,8 +36,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
@@ -51,6 +58,7 @@ import com.kaede.rainymood.RainyConfig;
 import com.kaede.rainymood.entity.EventPlayer;
 import com.kaede.rainymood.entity.EventTimer;
 import com.kaede.rainymood.util.NavigationUtil;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 
@@ -64,6 +72,8 @@ public class MainActivity extends ActionBarActivity {
 	private ViewPager viewPager;
 	Handler _handler = new Handler(Looper.getMainLooper());
 	private PagerSlidingTabStrip tabs;
+	private ImageView ivPLay;
+	private TextView tvPlay;
 
 	//----------------- Life Period -----------------//
 	@Override
@@ -79,49 +89,15 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().hide();
 		getSupportActionBar().setDisplayShowHomeEnabled(false);
 		//getSupportActionBar().
-		intitView();
+		injectView();
 		setListener();
 		//startService(new Intent(MainActivity.this, MainService.class));
 
-		if (MainService.isPlaying) {
-			main_iv_play.setImageResource(R.drawable.main_pause);
-		} else {
-			main_iv_play.setImageResource(R.drawable.main_play);
-			postAnimator(findViewById(R.id.layout_main_play),false,1000);
-		}
-
-		if (MainService.startTimer) {
-			findViewById(R.id.layout_main_timer_container).setVisibility(View.VISIBLE);
-		}else{
-			postAnimator(findViewById(R.id.layout_main_timer),false,1300);
-		}
-		postAnimator(findViewById(R.id.layout_main_download),false,1600);
-		
-		int current = SharePreferenceUtil.getInt("CURRENT_TAB", 0);
-		viewPager.setCurrentItem(current);
-        tabs.setOnPageChangeListener(new OnPageChangeListener() {
-			
-			@Override
-			public void onPageSelected(int arg0) {
-				Log.d(TAG, "onPageSelected index="+arg0);
-				EventPlayer event = new EventPlayer(EventPlayer.SWITCH);
-				event.position=arg0;
-				EventBus.getDefault().post(event);
-			}
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-			}
-			
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-			}
-		});
-        
-        UmengUpdateAgent.setUpdateAutoPopup(true);
-        UmengUpdateAgent.update(this);//UMENG更新
-        MobclickAgent.updateOnlineConfig(this);//UMENG在线参数
+		init();
         
 	}
+
+	
 	
 	@Override
 	protected void onResume() {
@@ -169,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	//----------------- Method -----------------//
-	public void intitView() {
+	public void injectView() {
 		viewPager = (ViewPager) this.findViewById(R.id.viewPager_main);
 
 		MainFragmentStateAdapter mainFragmentStateAdapter = new MainFragmentStateAdapter(getSupportFragmentManager());
@@ -184,6 +160,8 @@ public class MainActivity extends ActionBarActivity {
 		
 		main_iv_play = (ImageView) this.findViewById(R.id.main_iv_play);
 		tv_timer = (TextView) MainActivity.this.findViewById(R.id.tv_main_timer);
+		ivPLay = (ImageView) this.findViewById(R.id.iv_main_play);
+		tvPlay = (TextView) this.findViewById(R.id.tv_main_play);
 		
 		/*ImageView iv_main_progress=(ImageView) findViewById(R.id.iv_main_progress);
 		ClipDrawable clipDrawable = (ClipDrawable) iv_main_progress.getDrawable();
@@ -218,7 +196,7 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 		
-		findViewById(R.id.layout_main_timer).setOnClickListener(new OnClickListener() {
+		/*findViewById(R.id.layout_main_timer).setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
 				showSetTimerDialog();
@@ -244,7 +222,7 @@ public class MainActivity extends ActionBarActivity {
 				postAnimator(findViewById(R.id.layout_main_download),false,3000);
 				MobclickAgent.onEvent(MainActivity.this,"click_main_download");
 			}
-		});
+		});*/
 		findViewById(R.id.layout_main_timer_container).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -261,6 +239,100 @@ public class MainActivity extends ActionBarActivity {
 			}
 		});
 		
+	}
+	
+	private void init() {
+		if (MainService.isPlaying) {
+			main_iv_play.setImageResource(R.drawable.main_pause);
+		} else {
+			main_iv_play.setImageResource(R.drawable.main_play);
+			postAnimator(findViewById(R.id.layout_main_play),false,1000);
+		}
+
+		if (MainService.startTimer) {
+			findViewById(R.id.layout_main_timer_container).setVisibility(View.VISIBLE);
+		}else{
+			postAnimator(findViewById(R.id.layout_main_timer),false,1300);
+		}
+		postAnimator(findViewById(R.id.layout_main_download),false,1600);
+		
+		int current = SharePreferenceUtil.getInt("CURRENT_TAB", 0);
+		viewPager.setCurrentItem(current);
+        tabs.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int arg0) {
+				Log.d(TAG, "onPageSelected index="+arg0);
+				EventPlayer event = new EventPlayer(EventPlayer.SWITCH);
+				event.position=arg0;
+				EventBus.getDefault().post(event);
+			}
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+        
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			setTranslucentStatus(true);
+		}
+
+		SystemBarTintManager tintManager = new SystemBarTintManager(this);
+		tintManager.setStatusBarTintEnabled(true);
+		tintManager.setNavigationBarTintEnabled(true);
+		tintManager.setTintColor(getResources().getColor(R.color.light_blue_500));
+		/*tintManager.setStatusBarTintResource(R.color.light_blue_500);
+		tintManager.setNavigationBarTintResource(R.color.light_blue_500);
+		tintManager.setNavigationBarAlpha(0.7f);
+		tintManager.setStatusBarAlpha(0.5f);*/
+		
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+			RelativeLayout relativeLayout = (RelativeLayout) this.findViewById(R.id.layout_toolbar);
+			LinearLayout.LayoutParams layoutParams = (android.widget.LinearLayout.LayoutParams) relativeLayout.getLayoutParams();
+			layoutParams.topMargin = getBarHeight();
+			relativeLayout.requestLayout();
+		}
+		
+        UmengUpdateAgent.setUpdateAutoPopup(true);
+        UmengUpdateAgent.update(this);//UMENG更新
+        MobclickAgent.updateOnlineConfig(this);//UMENG在线参数
+        
+        
+	}
+	
+	private int getBarHeight(){
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, sbar = 38;//默认为38，貌似大部分是这样的
+
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            sbar = getResources().getDimensionPixelSize(x);
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return sbar;
+	}
+	
+	@TargetApi(19) 
+	private void setTranslucentStatus(boolean on) {
+		Window win = getWindow();
+		WindowManager.LayoutParams winParams = win.getAttributes();
+		final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+		if (on) {
+			winParams.flags |= bits;
+		} else {
+			winParams.flags &= ~bits;
+		}
+		win.setAttributes(winParams);
 	}
 	
 	private void postAnimator(final View v, Boolean inOrOut, int delayMillis) {
@@ -309,6 +381,8 @@ public class MainActivity extends ActionBarActivity {
 		postAnimator(findViewById(R.id.layout_main_play),true,0);
 		EventBus.getDefault().post(new EventPlayer(EventPlayer.PLAY));
 		main_iv_play.setImageResource(R.drawable.main_pause);
+		ivPLay.setImageResource(R.drawable.icon_pause);
+		tvPlay.setText(R.string.main_tv_pause);
 		MainService.isPlaying = true;
 	}
 
@@ -319,6 +393,8 @@ public class MainActivity extends ActionBarActivity {
 		}
 		EventBus.getDefault().post(new EventPlayer(EventPlayer.PAUSE));
 		main_iv_play.setImageResource(R.drawable.main_play);
+		ivPLay.setImageResource(R.drawable.icon_play);
+		tvPlay.setText(R.string.main_tv_play);
 		cancelTimer();
 		MainService.isPlaying = false;
 		

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_blue_500"
     android:orientation="vertical" >
-
+    
     <RelativeLayout
         android:id="@+id/layout_toolbar"
         android:layout_width="match_parent"
@@ -56,6 +56,7 @@
     </RelativeLayout>
 
     <thirdparty.com.astuetz.PagerSlidingTabStrip
+        android:layout_marginTop="-5dp"
         android:id="@+id/tabs_main"
         android:layout_width="match_parent"
         android:layout_height="30dip"
@@ -216,10 +217,10 @@
                     android:background="@drawable/selector_bg_button_round"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp">
-                <ImageView android:src="@drawable/icon_play"
+                <ImageView android:src="@drawable/icon_play" android:id="@+id/iv_main_play"
                            android:layout_width="wrap_content" android:layout_height="wrap_content"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="@string/main_tv_play"
+                    android:text="@string/main_tv_play" android:id="@+id/tv_main_play"
                           android:layout_marginLeft="5dp"
                           android:textColor="@android:color/white"
                           android:drawablePadding="10dp"

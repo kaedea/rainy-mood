@@ -30,7 +30,7 @@
         <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_lightbllue_01</item>
         <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Lightbllue_01</item>
         
-        <item name="android:windowContentOverlay">@null</item>
+       <!--  <item name="android:windowContentOverlay">@null</item> -->
         <item name="android:actionOverflowButtonStyle">@style/OverFlow</item>
         
                 <!-- Light.DarkActionBar specific -->

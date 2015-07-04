@@ -5,7 +5,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
-    <string name="main_tv_timer">TIMER</string>
+    <string name="main_tv_timer">SLEEP</string>
     <string name="main_tv_play">PLAY</string>
     <string name="main_tv_pause">PAUSE</string>
     <string name="main_tv_download">DOWN</string>

@@ -8,7 +8,7 @@
     android:paddingBottom="5dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="15dp" >
+    android:paddingTop="7dp" >
 
     <!-- <com.andexert.library.RippleView
         android:layout_width="match_parent"

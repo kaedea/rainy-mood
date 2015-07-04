@@ -5,6 +5,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
+    <string name="main_tv_timer">睡眠</string>
+    <string name="main_tv_play">播放</string>
+    <string name="main_tv_pause">暂停</string>
+    <string name="main_tv_download">下载</string>
+    
     <string name="common_confirm">确定</string>
     <string name="common_cancel">取消</string>
     
