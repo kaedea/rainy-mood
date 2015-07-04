@@ -108,10 +108,10 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (MainService.isPlaying) {
+		/*if (MainService.isPlaying) {
 			// EventBus.getDefault().post(new EventPlayer(2));
 			showNotification();
-		}
+		}*/
 		MobclickAgent.onPause(this);
 	}
 
@@ -283,7 +283,7 @@ public class MainActivity extends ActionBarActivity {
 		SystemBarTintManager tintManager = new SystemBarTintManager(this);
 		tintManager.setStatusBarTintEnabled(true);
 		tintManager.setNavigationBarTintEnabled(true);
-		tintManager.setTintColor(getResources().getColor(R.color.light_blue_500));
+		tintManager.setTintColor(getResources().getColor(R.color.background));
 		/*tintManager.setStatusBarTintResource(R.color.light_blue_500);
 		tintManager.setNavigationBarTintResource(R.color.light_blue_500);
 		tintManager.setNavigationBarAlpha(0.7f);
@@ -384,6 +384,7 @@ public class MainActivity extends ActionBarActivity {
 		ivPLay.setImageResource(R.drawable.icon_pause);
 		tvPlay.setText(R.string.main_tv_pause);
 		MainService.isPlaying = true;
+		showNotification();
 	}
 
 	private void stopPlay() {
@@ -544,7 +545,7 @@ public class MainActivity extends ActionBarActivity {
 		 */
 
 		NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-		Notification n = new Notification(R.drawable.ic_launcher_rain, getResources().getString(R.string.notification_description_short), System.currentTimeMillis());
+		Notification n = new Notification(R.drawable.icon_notification, getResources().getString(R.string.notification_description_short), System.currentTimeMillis());
 		n.flags = Notification.FLAG_NO_CLEAR;//FLAG_AUTO_CANCEL为可清除
 		Intent i = new Intent(this, MainActivity.class);
 		// i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_NEW_TASK);

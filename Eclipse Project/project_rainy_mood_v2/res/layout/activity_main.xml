@@ -4,7 +4,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_blue_500"
+    android:background="@color/background"
     android:orientation="vertical" >
     
     <RelativeLayout
@@ -60,7 +60,7 @@
         android:id="@+id/tabs_main"
         android:layout_width="match_parent"
         android:layout_height="30dip"
-        android:background="@color/light_blue_500"
+        android:background="@color/background"
         app:pstsDividerColor="@android:color/transparent"
         app:pstsIndicatorColor="#ffffff"
         app:pstsIndicatorHeight="2dp"
