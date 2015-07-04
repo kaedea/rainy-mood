@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Nature : Rainy Mood</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="main_tv_timer">TIMER</string>
+    <string name="main_tv_play">PLAY</string>
+    <string name="main_tv_pause">PAUSE</string>
+    <string name="main_tv_download">DOWN</string>
+    
+    <string name="common_confirm">Okay</string>
+    <string name="common_cancel">Quit</string>
+    
+    <string name="about_version">Version Code</string>
+    <string name="about_upgrade">Check for Updates</string>
+    <string name="about_feedback">Advice and Feedback</string>
+    <string name="about_giveme5">Give Me 5-Star</string>
+    <string name="about_tip_noupdate">Nothing upgrade</string>
+    
+    <string name="main_tip_download_hd">HD sound is coming. Please wait!</string>
+    <string name="main_tip_cancel_countdown">Click the time label to cancel the timer</string>
+    
+    <string name="dialog_pick_process_max">90</string>
+    <string name="dialog_cancel_title">Sure to cancel the time?</string>
+    <string name="dialog_pick_title">Time for auto-shutdown(minute)</string>
+    
+    <string name="notification_description_short">It\'s raining…sa-sa-sa…</string>
+    <string name="notification_description">Enjoying the rain of nature!</string>
+    <string name="notification_title">Nature : Rainy Mood</string>
+    
+    
+    <string-array name = "main_pager_titles">
+        <item >Lightning</item>
+        <item >Music</item>
+        <item >Field</item>
+        <item >Moderate Rain</item>
+        <item >Forest</item>
+        <item >Lake</item>
+        <item >Wandering</item>
+        <item >Sprinkle</item>
+        <item >River</item>
+        <item >Window</item>
+        <item >Street</item>
+        <item >Night</item>
+        <item >Heavy Rain</item>
+    </string-array>
+    
+
+</resources>

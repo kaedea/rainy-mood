@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kaede.rainymood"
+    android:versionCode="43"
+    android:versionName="4.3" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="19" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_UPDATES" />
+    <!-- QQ、QQ空间所需权限 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <!-- SHARE SDK -->
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <application
+        android:name="com.kaede.rainymood.BaseApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher_rain"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.Lightbllue_01" >
+        <activity
+            android:name="com.kaede.rainymood.home.MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.kaede.rainymood.home.AboutActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <service android:name="com.kaede.rainymood.home.MainService" >
+        </service>
+
+        <!-- ################### Third Party ################### -->
+        <!-- UMENG START -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5528ffd0fd98c54136000831" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="MOGO_360" />
+        <!-- Feedback -->
+        <activity android:name="com.umeng.fb.ConversationActivity" />
+        <!-- Upgrade -->
+        <service
+            android:name="com.umeng.update.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <activity
+            android:name="com.umeng.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <!-- Share -->
+        <!-- 分享编辑页 -->
+        <activity
+            android:name="com.umeng.socialize.view.ShareActivity"
+            android:configChanges="orientation|keyboard"
+            android:launchMode="singleTask"
+            android:noHistory="true"
+            android:theme="@style/Theme.UMDialog"
+            android:windowSoftInputMode="stateVisible|adjustResize" >
+        </activity>
+        <!-- QQ -->
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+
+        <!-- Weixin -->
+        <!--
+             <activity
+            android:name="com.kaede.rainymood.wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        -->
+
+
+        <!-- facebook相关 -->
+        <activity
+            android:name="com.facebook.LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- UMENG END -->
+
+
+        <!-- ################### AD ################### -->
+        <!-- 声明Mogo的Activity -->
+        <activity
+            android:name="me.kaede.rainymood.av.RainymoodWebView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/app_name" >
+        </activity>
+
+        <!-- 注册Service，自主广告与交换广告的应用下载功能所需 -->
+
+        <service
+            android:name="me.kaede.rainymood.controller.service.UpdateService"
+            android:exported="true"
+            android:process=":remote" />
+
+        <!-- 注册Service，安装应用所用 -->
+
+        <service
+            android:name="me.kaede.rainymood.controller.service.CountService"
+            android:exported="true"
+            android:process=":remote" />
+
+        <!-- 注册Service，信息流广告安装应用所用 -->
+
+        <service
+            android:name="me.kaede.rainymood.natives.service.ActService"
+            android:exported="false"
+            android:process=":remote" />
+        
+         <!-- 声明AdMob的Activity 
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />-->
+        <!-- inmobi -->
+        <!-- Mandatory activity declaration to show the Ad in the embedded browser
+        <activity
+            android:name="com.inmobi.androidsdk.IMBrowserActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize" /> -->
+        
+        <!-- QQ AD START -->
+        <service
+            android:name="com.qq.e.comm.DownloadService"
+            android:exported="false" >
+        </service>
+
+        <activity
+            android:name="com.qq.e.ads.AdActivity"
+            android:theme="@android:style/Theme.Translucent" >
+        </activity>
+        <!-- QQ AD END -->
+
+    </application>
+
+</manifest>

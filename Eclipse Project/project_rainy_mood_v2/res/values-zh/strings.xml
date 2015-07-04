@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">雨声 深度睡眠 </string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    
+    <string name="common_confirm">确定</string>
+    <string name="common_cancel">取消</string>
+    
+    <string name="about_version">当前版本</string>
+    <string name="about_upgrade">检查更新</string>
+    <string name="about_feedback">建议反馈</string>
+    <string name="about_giveme5">给个好评</string>
+    
+    <string name="main_tip_download_hd">高清资源搭建中，敬请期待</string>
+    <string name="main_tip_cancel_countdown">点击标签可取消倒计时</string>
+    
+    <string name="dialog_pick_process_max">90</string>
+    <string name="dialog_cancel_title">确定取消自动关闭？</string>
+    <string name="dialog_pick_title">请设置自动关闭的时间（分）</string>
+    
+    <string name="notification_description_short">正在播放雨声</string>
+    <string name="notification_description">自然的雨声，安静的心情！</string>
+    <string name="notification_title">Nature : Rainy Mood</string>
+    
+    
+    <string-array name = "main_pager_titles">
+        <item >雷阵雨</item>
+        <item >音乐</item>
+        <item >田野</item>
+        <item >中雨</item>
+        <item >森林</item>
+        <item >湖</item>
+        <item >雨中漫步</item>
+        <item >小雨</item>
+        <item >河水</item>
+        <item >窗</item>
+        <item >街道</item>
+        <item >夜雨</item>
+        <item >大雨</item>
+    </string-array>
+    
+
+</resources>
