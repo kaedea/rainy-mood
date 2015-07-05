@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.kaede.common.util.SharePreferenceUtil;
 import com.kaede.rainymood.home.MainService;
+import com.kaede.rainymood.util.UMengUtilImpl;
 
 /**
  * @author kaede
@@ -21,6 +22,7 @@ public class BaseApplication extends Application {
 		startService(new Intent(this, MainService.class));
 		SharePreferenceUtil.init(this);
 		RainyConfig.init(this);
+		UMengUtilImpl.instance().initOnlineConfig(this);
 		super.onCreate();
 	}
 

@@ -20,6 +20,7 @@ import com.kaede.common.ad.AdManagerQQ;
 import com.kaede.common.util.StringUtil;
 import com.kaede.rainymood.R;
 import com.kaede.rainymood.RainyConfig;
+import com.kaede.rainymood.util.UMengUtilImpl;
 import com.umeng.analytics.MobclickAgent;
 
 public class MainFragment extends Fragment {
@@ -27,11 +28,7 @@ public class MainFragment extends Fragment {
 	private static final String TAG = "MainFragment";
 	private static final String EXTRA_INDEX = "EXTRA_INDEX";
 	private int pos;
-	Boolean isHasShowInsert = false;
 	Random random;
-	private Boolean isShowBanner = false;
-	private int rateShowInsert;
-	float alphaBanner = 100f;
 	
 	public static MainFragment getInstance(int posintion){
 		MainFragment fragment = new MainFragment();
@@ -45,25 +42,6 @@ public class MainFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.pos = getArguments().getInt(EXTRA_INDEX,0);
-		random = new Random();
-		String s = MobclickAgent.getConfigParams(getActivity(), "num_rate_show_insert");
-		rateShowInsert = StringUtil.safeParseInt(s);
-		if (rateShowInsert<=0) {
-			rateShowInsert=5;
-		}
-		s = MobclickAgent.getConfigParams(getActivity(), "num_rate_banner_alpha");
-		float f = StringUtil.safeParseInt(s);
-		if (f>=0&&f<=100) {
-			 alphaBanner = f/100f;
-		}
-		
-		s = MobclickAgent.getConfigParams(getActivity(), "is_show_banner_main");
-		Log.e(TAG, "is_show_banner_main="+s );
-		int ShowBanner = StringUtil.safeParseInt(s);
-		if (ShowBanner>=0) {
-			isShowBanner = true;
-		}
-		ad_addbanner();
 	}
 	
 	@Override
@@ -74,6 +52,7 @@ public class MainFragment extends Fragment {
 		ImageView iv_bg = (ImageView) rootView
 				.findViewById(R.id.iv_main_fragment_bg);
 		iv_bg.setImageResource(RainyConfig.getBgResource(pos));
+		ad_addbanner();
 		return rootView;
 	}
 	
@@ -106,7 +85,7 @@ public class MainFragment extends Fragment {
 	}
 
 	private void ad_addbanner() {
-		if (isShowBanner) {
+		if (UMengUtilImpl.instance().isShowBanner) {
 			handler.postDelayed(TASK_ADD_AD, 2000);
 			//getView().findViewById(R.id.adsMogoView).setVisibility(View.VISIBLE);
 			//ViewCompat.setAlpha(getView().findViewById(R.id.adsMogoView), alphaBanner);
@@ -117,21 +96,20 @@ public class MainFragment extends Fragment {
 	}
 	
 	private void ad_showInsert() {
-		if (isHasShowInsert) {
+		if (UMengUtilImpl.instance().isHasShowInsert||!UMengUtilImpl.instance().isShowInsert) {
 			return;
 		}
-		int i = random.nextInt(rateShowInsert);
+		if (random == null) {
+			random = new Random();
+		}
+		int i = random.nextInt(UMengUtilImpl.instance().rateShowInsert);
 		if (i!=0) {
 			return;
 		}
-		String s = MobclickAgent.getConfigParams(getActivity(), "is_show_insert_main");
-		Log.e(TAG, "is_show_insert_main="+s );
-		int isShowInsert = StringUtil.safeParseInt(s);
-		if (isShowInsert>=0) {
-			AdManagerQQ.loadIntertistial(getActivity());
-			isHasShowInsert=true;
-			MobclickAgent.onEvent(MainFragment.this.getActivity(),"show_insert_main");
-		}
+		
+		AdManagerQQ.loadIntertistial(getActivity());
+		UMengUtilImpl.instance().isHasShowInsert=true;
+		MobclickAgent.onEvent(MainFragment.this.getActivity(),"show_insert_main");
 	}
 	
 	Handler handler = new Handler();
@@ -142,8 +120,8 @@ public class MainFragment extends Fragment {
 			try {
 				RelativeLayout container = (RelativeLayout) getView().findViewById(R.id.layout_main_fragment_banner);
 				AdManagerMogo.addBanner(getActivity(), container);
-				if (alphaBanner>0&&alphaBanner<1.0f) {
-					ViewHelper.setAlpha(container, alphaBanner);
+				if (UMengUtilImpl.instance().alphaBanner>0&&UMengUtilImpl.instance().alphaBanner<1.0f) {
+					ViewHelper.setAlpha(container, UMengUtilImpl.instance().alphaBanner);
 				}
 				MobclickAgent.onEvent(MainFragment.this.getActivity(),"show_banner_main");
 			} catch (Throwable e) {
