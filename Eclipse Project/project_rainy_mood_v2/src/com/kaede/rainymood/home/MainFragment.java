@@ -27,6 +27,7 @@ public class MainFragment extends Fragment {
 
 	private static final String TAG = "MainFragment";
 	private static final String EXTRA_INDEX = "EXTRA_INDEX";
+	public static int switchCount = 0;
 	private int pos;
 	Random random;
 	
@@ -74,7 +75,10 @@ public class MainFragment extends Fragment {
 			//handler.removeCallbacks(TASK_ADD_AD);
 		}else
 		{
-			ad_showInsert();
+			switchCount++;
+			if (switchCount>1) {
+				ad_showInsert();
+			}
 		}
 	}
 	

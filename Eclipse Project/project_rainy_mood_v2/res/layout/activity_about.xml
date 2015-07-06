@@ -35,11 +35,11 @@
                 app:rv_color="@color/common_white" >
 
                 <ImageView
-                    android:layout_centerInParent="true"
-                    android:layout_alignParentRight="true"
                     android:id="@+id/iv_about_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/icon_star_72_150" />
             </com.andexert.library.RippleView>
         </RelativeLayout>
@@ -61,12 +61,20 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+            <CheckBox
+                android:id="@+id/check_about_ad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="36dp"
+                android:text="@string/about_close_ad"
+                android:textColor="@color/common_white" />
+
             <com.andexert.library.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
                 app:rv_color="@color/light_blue_500" >
 
                 <RelativeLayout
@@ -100,9 +108,9 @@
             <com.andexert.library.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
                 app:rv_color="@color/light_blue_500" >
 
                 <RelativeLayout
@@ -136,9 +144,9 @@
             <com.andexert.library.RippleView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
-                android:layout_marginBottom="10dp"
                 app:rv_color="@color/light_blue_500" >
 
                 <RelativeLayout

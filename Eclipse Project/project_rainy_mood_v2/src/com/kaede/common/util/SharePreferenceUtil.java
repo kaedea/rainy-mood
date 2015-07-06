@@ -18,4 +18,14 @@ public class SharePreferenceUtil {
 		editor.putInt(name, value); 
 		editor.commit();
 	}
+	
+	public static Boolean getBoolean(String name,Boolean defaultValue){
+		return sp.getBoolean(name,defaultValue);
+	}
+	
+	public static void putBoolean(String name,Boolean value){
+		SharedPreferences.Editor editor = sp.edit();
+		editor.putBoolean(name, value); 
+		editor.commit();
+	}
 }

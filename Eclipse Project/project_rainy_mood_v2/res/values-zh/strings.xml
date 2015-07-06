@@ -17,9 +17,12 @@
     <string name="about_upgrade">检查更新</string>
     <string name="about_feedback">建议反馈</string>
     <string name="about_giveme5">给个好评</string>
+    <string name="about_tip_noupdate">找不到更新</string>
+    <string name="about_close_ad">关闭广告</string>
     
     <string name="main_tip_download_hd">高清资源搭建中，敬请期待</string>
     <string name="main_tip_cancel_countdown">点击标签可取消倒计时</string>
+    <string name="main_tip_to_exit">再按一次退出</string>
     
     <string name="dialog_pick_process_max">90</string>
     <string name="dialog_cancel_title">确定取消自动关闭？</string>

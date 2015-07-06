@@ -15,6 +15,7 @@ public class UMengUtilImpl implements IUMengUtil {
 	public Boolean isShowBanner = false;
 	public Boolean isShowInsert = false;
 	public Boolean isHasShowInsert = false;
+	public Boolean isShowInsetExit = false;
 	static UMengUtilImpl instance;
 	
 	public static UMengUtilImpl instance(){
@@ -31,7 +32,7 @@ public class UMengUtilImpl implements IUMengUtil {
 	@Override
 	public void initOnlineConfig(Context context){
 		String s = MobclickAgent.getConfigParams(context, "num_rate_show_insert");
-		if (StringUtil.safeParseInt(s)>=0) {
+		if (StringUtil.safeParseInt(s)>0) {
 			rateShowInsert=StringUtil.safeParseInt(s);
 		}
 		
@@ -46,9 +47,14 @@ public class UMengUtilImpl implements IUMengUtil {
 			isShowBanner = true;
 		}
 		
-		 s = MobclickAgent.getConfigParams(context, "is_show_insert_main");
+		s = MobclickAgent.getConfigParams(context, "is_show_insert_main");
 		if (StringUtil.safeParseInt(s)>=0) {
 			isShowInsert=true;
+		}
+		
+		s = MobclickAgent.getConfigParams(context, "is_show_insert_main_exit");
+		if (StringUtil.safeParseInt(s)>=0) {
+			isShowInsetExit=true;
 		}
 	}
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Nature : Rainy Mood</string>
+    <string name="app_name">Rainy Sleep</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     
@@ -18,9 +18,11 @@
     <string name="about_feedback">Advice and Feedback</string>
     <string name="about_giveme5">Give Me 5-Star</string>
     <string name="about_tip_noupdate">Nothing upgrade</string>
+    <string name="about_close_ad">NO AD</string>
     
     <string name="main_tip_download_hd">HD sound is coming. Please wait!</string>
     <string name="main_tip_cancel_countdown">Click the time label to cancel the timer</string>
+    <string name="main_tip_to_exit">Click again to exit</string>
     
     <string name="dialog_pick_process_max">90</string>
     <string name="dialog_cancel_title">Sure to cancel the time?</string>
@@ -46,6 +48,7 @@
         <item >Night</item>
         <item >Heavy Rain</item>
     </string-array>
+        
     
 
 </resources>

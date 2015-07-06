@@ -11,10 +11,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.kaede.common.util.DeviceUtil;
 import com.kaede.common.util.NavigationUtils;
+import com.kaede.common.util.SharePreferenceUtil;
 import com.kaede.common.util.ToastUtil;
 import com.kaede.rainymood.R;
 import com.umeng.analytics.MobclickAgent;
@@ -39,6 +43,7 @@ public class AboutActivity extends ActionBarActivity {
 	TextView tvVersionCode;
 	com.umeng.fb.fragment.FeedbackFragment sad;
 	private UMSocialService mUMsocialController;
+	private CheckBox checkCloseAd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -65,9 +70,17 @@ public class AboutActivity extends ActionBarActivity {
 
 	private void initView() {
 		tvVersionCode = (TextView) this.findViewById(R.id.tv_about_versioncode);
+		checkCloseAd = ((CheckBox)findViewById(R.id.check_about_ad));
 	}
 
 	private void setListener() {
+		checkCloseAd.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				SharePreferenceUtil.putBoolean("pre_is_close_ad", isChecked);
+				
+			}
+		});
 		findViewById(R.id.iv_about_back).setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -142,6 +155,7 @@ public class AboutActivity extends ActionBarActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		checkCloseAd.setChecked(SharePreferenceUtil.getBoolean("pre_is_close_ad", false));
 
 		initUMengSoicalService();
 	}

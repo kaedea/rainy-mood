@@ -22,7 +22,9 @@ public class BaseApplication extends Application {
 		startService(new Intent(this, MainService.class));
 		SharePreferenceUtil.init(this);
 		RainyConfig.init(this);
-		UMengUtilImpl.instance().initOnlineConfig(this);
+		if (!SharePreferenceUtil.getBoolean("pre_is_close_ad", false)) {
+			UMengUtilImpl.instance().initOnlineConfig(this);
+		}
 		super.onCreate();
 	}
 

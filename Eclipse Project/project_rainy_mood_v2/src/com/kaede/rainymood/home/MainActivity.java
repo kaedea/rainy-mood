@@ -30,6 +30,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
+import com.kaede.common.ad.AdManagerMogo;
 import com.kaede.common.ad.AdManagerQQ;
 import com.kaede.common.util.DeviceUtil;
 import com.kaede.common.util.NavigationUtils;
@@ -57,7 +59,9 @@ import com.kaede.rainymood.R;
 import com.kaede.rainymood.RainyConfig;
 import com.kaede.rainymood.entity.EventPlayer;
 import com.kaede.rainymood.entity.EventTimer;
+import com.kaede.rainymood.util.CommonCallback;
 import com.kaede.rainymood.util.NavigationUtil;
+import com.kaede.rainymood.util.UMengUtilImpl;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
@@ -74,6 +78,13 @@ public class MainActivity extends ActionBarActivity {
 	private PagerSlidingTabStrip tabs;
 	private ImageView ivPLay;
 	private TextView tvPlay;
+	private Boolean isShouldBack = false;
+	Runnable RUNNABLE_CANCEL_BACK = new Runnable() {
+		@Override
+		public void run() {
+			isShouldBack = false;
+		}
+	};
 
 	//----------------- Life Period -----------------//
 	@Override
@@ -142,6 +153,33 @@ public class MainActivity extends ActionBarActivity {
 		EventBus.getDefault().unregister(this);
 		SharePreferenceUtil.putInt("CURRENT_TAB", viewPager.getCurrentItem());
 		super.onDestroy();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if(!isShouldBack){
+			isShouldBack = true;
+			getHandler().postDelayed(RUNNABLE_CANCEL_BACK, 2000);
+			ToastUtil.toast(this, getString(R.string.main_tip_to_exit));
+			if (UMengUtilImpl.instance().isShowInsetExit) {
+				AdManagerQQ.loadIntertistial(this,new CommonCallback<Integer>() {
+					
+					@Override
+					public void onCallBack(Integer t, Object object) {
+						if (t==0) {
+							finish();
+						}
+					}
+				});
+			}
+			return true;
+			}
+			else{
+				getHandler().removeCallbacks(RUNNABLE_CANCEL_BACK);
+			}
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	//----------------- Method -----------------//
@@ -244,6 +282,8 @@ public class MainActivity extends ActionBarActivity {
 	private void init() {
 		if (MainService.isPlaying) {
 			main_iv_play.setImageResource(R.drawable.main_pause);
+			ivPLay.setImageResource(R.drawable.icon_pause);
+			tvPlay.setText(R.string.main_tv_pause);
 		} else {
 			main_iv_play.setImageResource(R.drawable.main_play);
 			postAnimator(findViewById(R.id.layout_main_play),false,1000);
